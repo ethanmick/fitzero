@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 2rem);
+  }
+}
+
 html {
-	@apply bg-neutral-900;
+	@apply bg-neutral-900 text-neutral-50;
 }

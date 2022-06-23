@@ -33,10 +33,10 @@ const exercise = {
 
 const Sets = () => {
   return (
-    <div className="bg-neutral-900 text-gray-50 px-4 shadow">
+    <div className="bg-neutral-900 px-4 shadow">
       <h2 className="text-2xl py-8">Sets</h2>
       <h3>Previous</h3>
-      <div className="flex gap-16 py-8">
+      <div className="flex justify-around py-8">
         <div className="flex flex-col items-start">
           <div className="text-2xl">4</div>
           <div className="text-sm font-light uppercase">Sets</div>
@@ -95,7 +95,7 @@ type NameProps = React.DetailedHTMLProps<
 >
 
 const Name = ({ children, ...rest }: NameProps) => (
-  <div className="px-4 py-12 text-white">
+  <div className="px-4 py-12">
     <h1 className="py-4 font-semibold text-3xl">{children}</h1>
     <h2>{DateTime.now().minus({ week: 1 }).toRelative()}</h2>
   </div>
@@ -109,12 +109,16 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="theme-color" content="#000" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+        />
       </Head>
-      <main className="pb-8">
+      <main className="pb-safe">
         <Name>{exercise.name}</Name>
         <Sets />
         <div className="px-4">
-          <button className="text-white border w-full py-4 border-neutral-300">
+          <button className="border w-full py-4 border-neutral-300">
             Next
           </button>
         </div>
