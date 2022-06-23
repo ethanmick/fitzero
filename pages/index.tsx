@@ -61,13 +61,17 @@ const Sets = () => {
             <div>{key + 1}</div>
             <div className="mt-1 relative rounded-md shadow-sm col-span-4">
               <input
+                autoComplete="off"
                 type="number"
+                pattern="\d*"
                 defaultValue={`${s.reps}`}
                 className="shadow-sm focus:ring-amber-500 focus:border-amber-500 block w-full sm:text-sm border-gray-300 bg-neutral-800"
               />
             </div>
             <div className="mt-1 relative rounded-md col-span-4">
               <input
+                autoComplete="off"
+                pattern="\d*"
                 type="number"
                 defaultValue={s.weight}
                 className="shadow-sm focus:ring-amber-500 focus:border-amber-500 block w-full sm:text-sm border-gray-300 bg-neutral-800"
@@ -103,6 +107,7 @@ const Home: NextPage = () => {
       <Head>
         <title>FitZer0</title>
         <link rel="icon" href="/favicon.ico" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
       </Head>
       <main className="pb-8">
         <Name>{exercise.name}</Name>
