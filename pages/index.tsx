@@ -95,7 +95,7 @@ type NameProps = React.DetailedHTMLProps<
 >
 
 const Name = ({ children, ...rest }: NameProps) => (
-  <div className="bg-black px-4 py-12 text-white">
+  <div className="px-4 py-12 text-white">
     <h1 className="py-4 font-semibold text-3xl">{children}</h1>
     <h2>{DateTime.now().minus({ week: 1 }).toRelative()}</h2>
   </div>
@@ -108,6 +108,7 @@ const Home: NextPage = () => {
         <title>FitZer0</title>
         <link rel="icon" href="/favicon.ico" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="theme-color" content="#000" />
       </Head>
       <main className="pb-8">
         <Name>{exercise.name}</Name>
