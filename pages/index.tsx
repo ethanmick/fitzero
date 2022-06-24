@@ -1,3 +1,4 @@
+import { ArrowLeftIcon } from '@heroicons/react/outline'
 import { DateTime } from 'luxon'
 import type { NextPage } from 'next'
 import Head from 'next/head'
@@ -57,7 +58,7 @@ const Sets = () => {
           <div className="col-span-4">Weight</div>
         </li>
         {exercise.previous.map((s, key) => (
-          <li key={key} className="grid grid-cols-9 gap-8 py-8">
+          <li key={key} className="grid grid-cols-9 gap-8 py-8 items-center">
             <div>{key + 1}</div>
             <div className="mt-1 relative rounded-md shadow-sm col-span-4">
               <input
@@ -114,7 +115,12 @@ const Home: NextPage = () => {
           content="width=device-width, initial-scale=1.0, viewport-fit=cover"
         />
       </Head>
-      <main className="pb-safe">
+      <main className="pb-safe pt-8">
+        <div className="px-8">
+          <button>
+            <ArrowLeftIcon className="h-8 w-8" />
+          </button>
+        </div>
         <Name>{exercise.name}</Name>
         <Sets />
         <div className="px-4">
