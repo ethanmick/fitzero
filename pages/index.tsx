@@ -201,7 +201,7 @@ const Home: NextPage = () => {
         <title>FitZer0</title>
         <link rel="icon" href="/favicon.ico" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="theme-color" content="#000" />
+        <meta name="theme-color" content="#171717" />
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1.0, viewport-fit=cover"
