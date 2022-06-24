@@ -8,6 +8,11 @@
   }
 }
 
+html,
+body {
+  @apply antialiased;
+}
+
 html {
-	@apply bg-neutral-900 text-neutral-50;
+  @apply bg-neutral-900 text-neutral-50;
 }

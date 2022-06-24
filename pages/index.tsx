@@ -1,7 +1,15 @@
-import { ArrowLeftIcon } from '@heroicons/react/outline'
+import { ArrowLeftIcon, MinusIcon } from '@heroicons/react/outline'
 import { DateTime } from 'luxon'
 import type { NextPage } from 'next'
 import Head from 'next/head'
+import { useState } from 'react'
+import { v4 as uuid } from 'uuid'
+
+type ExerciseLogSet = {
+  id: string
+  reps: string
+  weight: string
+}
 
 const exercise = {
   name: 'Bench Press',
@@ -32,7 +40,28 @@ const exercise = {
   ],
 }
 
-const Sets = () => {
+const ordinal = (n: number) => {
+  const ordinalRules = new Intl.PluralRules('en', {
+    type: 'ordinal',
+  })
+  const suffixes: any = {
+    one: 'st',
+    two: 'nd',
+    few: 'rd',
+    other: 'th',
+  }
+  const suffix = suffixes[ordinalRules.select(n)]
+  return n + suffix
+}
+
+type SetsProps = {
+  sets: ExerciseLogSet[]
+  onRemove: (r: ExerciseLogSet) => void
+  onChange: (r: ExerciseLogSet) => void
+  onAdd: () => void
+}
+
+const Sets = ({ sets, onRemove, onAdd, onChange }: SetsProps) => {
   return (
     <div className="bg-neutral-900 px-4 shadow">
       <h2 className="text-2xl py-8">Sets</h2>
@@ -52,29 +81,43 @@ const Sets = () => {
         </div>
       </div>
       <ul>
-        <li className="grid grid-cols-9 gap-8">
+        <li className="grid grid-cols-10 gap-8">
           <div>Set</div>
           <div className="col-span-4">Reps</div>
           <div className="col-span-4">Weight</div>
         </li>
-        {exercise.previous.map((s, key) => (
-          <li key={key} className="grid grid-cols-9 gap-8 py-8 items-center">
-            <div>{key + 1}</div>
+        {sets.map((s, i) => (
+          <li key={s.id} className="grid grid-cols-10 gap-8 py-8 items-center">
+            <div className="ordinal">{ordinal(i + 1)}</div>
             <div className="mt-1 relative rounded-md shadow-sm col-span-4">
               <input
                 autoComplete="off"
                 type="number"
                 pattern="\d*"
-                defaultValue={`${s.reps}`}
+                value={s.reps}
+                onChange={(e) =>
+                  onChange({
+                    ...s,
+                    reps: e.target.value,
+                  })
+                }
+                placeholder={'0'}
                 className="shadow-sm focus:ring-amber-500 focus:border-amber-500 block w-full sm:text-sm border-gray-300 bg-neutral-800"
               />
             </div>
             <div className="mt-1 relative rounded-md col-span-4">
               <input
                 autoComplete="off"
-                pattern="\d*"
+                inputMode="decimal"
                 type="number"
-                defaultValue={s.weight}
+                value={s.weight}
+                placeholder={'0'}
+                onChange={(e) =>
+                  onChange({
+                    ...s,
+                    weight: e.target.value,
+                  })
+                }
                 className="shadow-sm focus:ring-amber-500 focus:border-amber-500 block w-full sm:text-sm border-gray-300 bg-neutral-800"
               />
               <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
@@ -83,8 +126,21 @@ const Sets = () => {
                 </span>
               </div>
             </div>
+            <div>
+              <button onClick={() => onRemove(s)}>
+                <MinusIcon className="w-5 h-5" />
+              </button>
+            </div>
           </li>
         ))}
+        <div className="pb-12">
+          <button
+            className="border w-full py-4 border-neutral-300"
+            onClick={onAdd}
+          >
+            Another Set
+          </button>
+        </div>
       </ul>
     </div>
   )
@@ -103,6 +159,42 @@ const Name = ({ children, ...rest }: NameProps) => (
 )
 
 const Home: NextPage = () => {
+  const [sets, setSets] = useState<ExerciseLogSet[]>([
+    {
+      id: uuid(),
+      reps: '',
+      weight: '',
+    },
+  ])
+
+  const removeSet = (remove: ExerciseLogSet) => {
+    setSets((sets) => {
+      return sets.filter((s) => s.id !== remove.id)
+    })
+  }
+
+  const addSet = () => {
+    setSets((sets) => {
+      const prev = sets[sets.length - 1]
+      return [
+        ...sets,
+        {
+          id: uuid(),
+          reps: prev?.reps || '',
+          weight: prev?.weight || '',
+        },
+      ]
+    })
+  }
+
+  const onChange = (up: ExerciseLogSet) => {
+    setSets((sets) => {
+      const i = sets.findIndex((s) => s.id === up.id)
+      sets[i] = { ...up }
+      return [...sets]
+    })
+  }
+
   return (
     <div className="bg-neutral-900">
       <Head>
@@ -122,7 +214,12 @@ const Home: NextPage = () => {
           </button>
         </div>
         <Name>{exercise.name}</Name>
-        <Sets />
+        <Sets
+          sets={sets}
+          onRemove={removeSet}
+          onAdd={addSet}
+          onChange={onChange}
+        />
         <div className="px-4">
           <button className="border w-full py-4 border-neutral-300">
             Next
