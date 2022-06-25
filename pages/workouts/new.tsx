@@ -22,7 +22,6 @@ const ListExercises = gql`
 
 type Props = InferGetServerSidePropsType<typeof getServerSideProps>
 const NewWorkoutPage: NextPage<Props> = ({ exercises }: Props) => {
-  console.log('We did it', exercises)
   return (
     <div>
       <h1>Create Workout</h1>
@@ -38,10 +37,19 @@ const NewWorkoutPage: NextPage<Props> = ({ exercises }: Props) => {
 export default NewWorkoutPage
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
-  const { data } = await query<ListExercisesQuery>(ctx, ListExercises)
+  try {
+    const { data } = await query<ListExercisesQuery>(ctx, ListExercises)
+    return {
+      props: {
+        exercises: data.exercises,
+      },
+    }
+  } catch (err: any) {
+    console.log(err)
+  }
   return {
     props: {
-      exercises: data.exercises,
+      exercises: [],
     },
   }
 }
