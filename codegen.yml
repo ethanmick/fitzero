@@ -1,0 +1,8 @@
+schema: http://localhost:8080/introspection
+documents: '**/*.tsx'
+generates:
+  ./lib/generated.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typed-document-node

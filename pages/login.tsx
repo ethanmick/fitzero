@@ -23,6 +23,7 @@ const Login: NextPage = () => {
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/login`, {
         method: 'POST',
+        credentials: 'include',
         body: JSON.stringify(creds),
         headers: {
           'Content-Type': 'application/json',
