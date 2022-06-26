@@ -34,7 +34,7 @@ const Login: NextPage = () => {
         return
       }
       router.push({
-        pathname: Route.Workouts,
+        pathname: Route.Routines,
       })
     } catch (err) {
       console.error(err)

@@ -1,7 +1,9 @@
 import { ArrowLeftIcon, MinusIcon } from '@heroicons/react/outline'
+import { Route } from 'lib'
 import { DateTime } from 'luxon'
 import type { NextPage } from 'next'
 import Head from 'next/head'
+import Link from 'next/link'
 import { useState } from 'react'
 import { v4 as uuid } from 'uuid'
 
@@ -197,35 +199,13 @@ const Home: NextPage = () => {
 
   return (
     <div className="bg-neutral-900">
-      <Head>
-        <title>FitZer0</title>
-        <link rel="icon" href="/favicon.ico" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="theme-color" content="#171717" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-        />
-      </Head>
-      <main className="pb-safe pt-8">
-        <div className="px-8">
-          <button>
-            <ArrowLeftIcon className="h-8 w-8" />
-          </button>
-        </div>
-        <Name>{exercise.name}</Name>
-        <Sets
-          sets={sets}
-          onRemove={removeSet}
-          onAdd={addSet}
-          onChange={onChange}
-        />
-        <div className="px-4">
-          <button className="border w-full py-4 border-neutral-300">
-            Next
-          </button>
-        </div>
-      </main>
+      <Link
+        href={{
+          pathname: Route.Routines,
+        }}
+      >
+        <a>Routines</a>
+      </Link>
     </div>
   )
 }

@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client'
+import { MenuAlt3Icon } from '@heroicons/react/outline'
 import { PageTitle } from 'components'
 import { Main } from 'components/layout'
 import { Route } from 'lib'
@@ -8,23 +9,21 @@ import {
   NextPage,
 } from 'next'
 import Link from 'next/link'
+import { useState } from 'react'
 import { v4 as uuid } from 'uuid'
 
-// const ListWorkoutsQuery = gql``
-
-type WorkoutModel = {
+type Routine = {
   id: string
   name: string
 }
 
-const Workout = ({ id, name }: WorkoutModel) => (
+const RoutineItem = ({ id, name }: Routine) => (
   <li>
     <Link
       href={{
-        pathname: Route.WorkoutExercise,
+        pathname: Route.Routine,
         query: {
-          id,
-          exercise: 'id',
+          routineId: id,
         },
       }}
     >
@@ -33,46 +32,54 @@ const Workout = ({ id, name }: WorkoutModel) => (
   </li>
 )
 
+const MobileMenu = () => {
+  const [open, setOpen] = useState(false)
+  return (
+    <>
+      <button onClick={() => setOpen(true)}>
+        <MenuAlt3Icon className="h-5 w-5" />
+      </button>
+    </>
+  )
+}
+
 type Props = InferGetServerSidePropsType<typeof getServerSideProps>
-const WorkoutsPage: NextPage<Props> = ({ workouts }: Props) => {
+const RoutinesPage: NextPage<Props> = ({ routines }: Props) => {
   return (
     <Main>
+      <div className="flex items-center justify-between py-12">
+        <span />
+        <MobileMenu />
+      </div>
       <div className="flex items-center justify-between">
-        <PageTitle>Workouts</PageTitle>
-        <Link href={Route.WorkoutsNew}>
-          <a className="border p-2">Create New</a>
-        </Link>
+        <PageTitle>Routines</PageTitle>
       </div>
       <ul className="divide-y">
-        {workouts.map((w) => (
-          <Workout key={w.id} {...w} />
+        {routines.map((r) => (
+          <RoutineItem key={r.id} {...r} />
         ))}
       </ul>
     </Main>
   )
 }
 
-export default WorkoutsPage
+export default RoutinesPage
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   return {
     props: {
-      workouts: [
+      routines: [
         {
           id: uuid(),
-          name: 'Chest & Triceps',
+          name: 'Shortcut To Size',
         },
         {
           id: uuid(),
-          name: 'Back & Biceps',
+          name: 'Ronnie Coleman',
         },
         {
           id: uuid(),
-          name: 'Legs',
-        },
-        {
-          id: uuid(),
-          name: 'Shoulders',
+          name: 'Big Man on Campus',
         },
       ],
     },

@@ -1,5 +1,5 @@
 import { ArrowLeftIcon, MinusIcon } from '@heroicons/react/outline'
-import { DateTime } from 'luxon'
+// import { DateTime } from 'luxon'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
@@ -155,7 +155,7 @@ type NameProps = React.DetailedHTMLProps<
 const Name = ({ children, ...rest }: NameProps) => (
   <div className="px-4 py-12">
     <h1 className="py-4 font-semibold text-3xl">{children}</h1>
-    <h2>{DateTime.now().minus({ week: 1 }).toRelative()}</h2>
+    {/* <h2>{DateTime.now().minus({ week: 1 }).toRelative()}</h2> */}
   </div>
 )
 
