@@ -1,4 +1,4 @@
-import { PageTitle } from 'components'
+import { Back, PageTitle } from 'components'
 import { v4 as uuid } from 'uuid'
 import { Main } from 'components/layout'
 import { randomUUID } from 'crypto'
@@ -37,8 +37,7 @@ const RoutinePage: NextPage<Props> = ({ routine }: Props) => {
   return (
     <Main>
       <div className="flex items-center justify-between py-12">
-        <span />
-        {/* <MobileMenu /> */}
+        <Back href={Route.Routines} />
       </div>
       <div className="flex items-center justify-between">
         <PageTitle>{routine.name}</PageTitle>

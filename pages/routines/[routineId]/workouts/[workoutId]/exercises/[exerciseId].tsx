@@ -1,6 +1,12 @@
 import { ArrowLeftIcon, MinusIcon } from '@heroicons/react/outline'
+import { Back } from 'components'
+import { Route } from 'lib'
 // import { DateTime } from 'luxon'
-import type { NextPage } from 'next'
+import type {
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType,
+  NextPage,
+} from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useState } from 'react'
@@ -10,35 +16,6 @@ type ExerciseLogSet = {
   id: string
   reps: string
   weight: string
-}
-
-const exercise = {
-  name: 'Bench Press',
-  final: 'Drop Set',
-  previous: [
-    {
-      reps: 8,
-      weight: 70,
-    },
-    {
-      reps: 8,
-      weight: 70,
-    },
-    {
-      reps: 8,
-      weight: 70,
-    },
-    {
-      reps: 8,
-      weight: 70,
-    },
-  ],
-  current: [
-    {
-      reps: '6-8',
-      weight: 80,
-    },
-  ],
 }
 
 const ordinal = (n: number) => {
@@ -159,7 +136,8 @@ const Name = ({ children, ...rest }: NameProps) => (
   </div>
 )
 
-const ExercisePage: NextPage = () => {
+type Props = InferGetServerSidePropsType<typeof getServerSideProps>
+const ExercisePage: NextPage<Props> = ({ routine, workout, exercise }) => {
   const [sets, setSets] = useState<ExerciseLogSet[]>([
     {
       id: uuid(),
@@ -210,9 +188,15 @@ const ExercisePage: NextPage = () => {
       </Head>
       <main className="pb-safe pt-8">
         <div className="px-8">
-          <Link href="..">
-            <ArrowLeftIcon className="h-8 w-8" />
-          </Link>
+          <Back
+            href={{
+              pathname: Route.RoutineWorkout,
+              query: {
+                routineId: routine.id,
+                workoutId: workout.id,
+              },
+            }}
+          />
         </div>
         <Name>{exercise.name}</Name>
         <Sets
@@ -232,3 +216,47 @@ const ExercisePage: NextPage = () => {
 }
 
 export default ExercisePage
+
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+  const props = {
+    routine: {
+      id: uuid(),
+    },
+    workout: {
+      id: uuid(),
+    },
+    exercise: {
+      name: 'Bench Press',
+      onLast: 'Drop Set',
+      sets: {
+        previous: [
+          {
+            reps: 8,
+            weight: 70,
+          },
+          {
+            reps: 8,
+            weight: 70,
+          },
+          {
+            reps: 8,
+            weight: 70,
+          },
+          {
+            reps: 8,
+            weight: 70,
+          },
+        ],
+      },
+      current: [
+        {
+          reps: '6-8',
+          weight: 80,
+        },
+      ],
+    },
+  }
+  return {
+    props,
+  }
+}

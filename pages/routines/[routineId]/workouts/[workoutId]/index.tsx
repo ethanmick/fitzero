@@ -5,7 +5,7 @@ import {
   InferGetServerSidePropsType,
   NextPage,
 } from 'next'
-import { Main, PageTitle } from 'components'
+import { Back, Main, PageTitle } from 'components'
 import Link from 'next/link'
 import { Route } from 'lib'
 
@@ -41,6 +41,16 @@ const RoutineWorkoutPage: NextPage<Props> = ({
 }) => {
   return (
     <Main>
+      <div className="flex items-center justify-between py-12">
+        <Back
+          href={{
+            pathname: Route.Routine,
+            query: {
+              routineId: routine.id,
+            },
+          }}
+        />
+      </div>
       <div className="flex items-center justify-between">
         <PageTitle>{workout.name}</PageTitle>
       </div>
