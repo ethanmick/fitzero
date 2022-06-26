@@ -16,7 +16,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <title>FitZero</title>
         <link rel="icon" href="/favicon.ico" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="theme-color" content={Colors.gray['900']} />
+        <meta name="theme-color" content={Colors.neutral['900']} />
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1.0, viewport-fit=cover"
