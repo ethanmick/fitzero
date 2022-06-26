@@ -14,12 +14,13 @@ function MyApp({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <title>FitZero</title>
+        <link rel="manifest" href="/manifest.json" />
         <link rel="icon" href="/favicon.ico" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="theme-color" content={Colors.neutral['900']} />
         <meta
           name="viewport"
-          content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+          content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
         />
       </Head>
       <ApolloProvider client={client}>
