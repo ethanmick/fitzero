@@ -9,6 +9,8 @@ import {
 } from 'next'
 import Link from 'next/link'
 import { Route } from 'lib'
+import { Header } from 'components/header'
+import { Menu } from 'components/menu'
 
 type Workout = {
   routineId: string
@@ -36,12 +38,9 @@ type Props = InferGetServerSidePropsType<typeof getServerSideProps>
 const RoutinePage: NextPage<Props> = ({ routine }: Props) => {
   return (
     <Main>
-      <div className="flex items-center justify-between py-12">
-        <Back href={Route.Routines} />
-      </div>
-      <div className="flex items-center justify-between">
+      <Header left={<Back href={Route.Routines} />} right={<Menu />}>
         <PageTitle>{routine.name}</PageTitle>
-      </div>
+      </Header>
       <ul className="divide-y">
         {routine.workouts.map((r) => (
           <WorkoutItem key={r.id} {...r} routineId={routine.id} />

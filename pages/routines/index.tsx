@@ -1,7 +1,8 @@
 import { gql } from '@apollo/client'
 import { MenuAlt3Icon } from '@heroicons/react/outline'
-import { PageTitle } from 'components'
+import { Header, PageTitle } from 'components'
 import { Main } from 'components/layout'
+import { Menu } from 'components/menu'
 import { Route } from 'lib'
 import {
   GetServerSidePropsContext,
@@ -47,13 +48,9 @@ type Props = InferGetServerSidePropsType<typeof getServerSideProps>
 const RoutinesPage: NextPage<Props> = ({ routines }: Props) => {
   return (
     <Main>
-      <div className="flex items-center justify-between py-12">
-        <span />
-        <MobileMenu />
-      </div>
-      <div className="flex items-center justify-between">
+      <Header right={<Menu />}>
         <PageTitle>Routines</PageTitle>
-      </div>
+      </Header>
       <ul className="divide-y">
         {routines.map((r) => (
           <RoutineItem key={r.id} {...r} />

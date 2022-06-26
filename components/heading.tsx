@@ -6,5 +6,5 @@ type PageTitleProps = React.DetailedHTMLProps<
 >
 
 export const PageTitle = ({ className, ...rest }: PageTitleProps) => (
-  <h1 className={cx('py-16 font-semibold text-3xl')} {...rest} />
+  <h1 className={cx('font-semibold text-3xl')} {...rest} />
 )
