@@ -1,0 +1,12 @@
+{
+  "name": "FitZero",
+  "short_name": "FitZero",
+  "icons": [
+    {
+      "src": "/icons/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "display": "standalone"
+}
