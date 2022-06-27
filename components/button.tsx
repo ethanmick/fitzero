@@ -30,7 +30,10 @@ export const Back = ({ href }: BackProps) => {
     >
       <div className="flex absolute w-12 h-12 items-center justify-center z-10">
         <Link href={href}>
-          <a className="w-12 h-12 flex items-center justify-center">
+          <a
+            className="w-12 h-12 flex items-center justify-center"
+            onDragStart={(e) => e.preventDefault()}
+          >
             <ArrowLeftIcon className="w-6 h-6" />
           </a>
         </Link>
