@@ -4,14 +4,17 @@ import { useForm } from 'react-hook-form'
 import { Route } from 'lib'
 
 type FormData = {
+  email: string
   username: string
   password: string
 }
 
 const Login: NextPage = () => {
   const router = useRouter()
+  const credentialMode = router.query['credential_mode']
   const { register, handleSubmit } = useForm<FormData>({
     defaultValues: {
+      email: '',
       username: '',
       password: '',
     },
@@ -21,14 +24,17 @@ const Login: NextPage = () => {
     console.log(creds)
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/login`, {
-        method: 'POST',
-        credentials: 'include',
-        body: JSON.stringify(creds),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_ROOT}/login?redirect_to=${window.location.host}`,
+        {
+          method: 'POST',
+          credentials: 'include',
+          body: JSON.stringify(creds),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
       if (res.status >= 400) {
         console.error(res)
         return
@@ -43,16 +49,30 @@ const Login: NextPage = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <input
-        {...register('username')}
-        className="bg-gray-700 border"
-        type="text"
-      />
-      <input
-        {...register('password')}
-        className="bg-gray-700 border"
-        type="password"
-      />
+      {!credentialMode && (
+        <>
+          <input
+            {...register('email')}
+            className="bg-gray-700 border"
+            type="email"
+          />
+        </>
+      )}
+      {credentialMode && (
+        <>
+          <input
+            {...register('username')}
+            className="bg-gray-700 border"
+            type="text"
+          />
+          <input
+            {...register('password')}
+            className="bg-gray-700 border"
+            type="password"
+          />
+        </>
+      )}
+
       <button type="submit">Login</button>
     </form>
   )
