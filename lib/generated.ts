@@ -54,6 +54,7 @@ export type ExerciseLog = {
   modifiedAt?: Maybe<Scalars['Time']>;
   modifiedBy?: Maybe<User>;
   sets: Array<ExerciseLogSet>;
+  stats: ExerciseLogStats;
 };
 
 export type ExerciseLogSet = {
@@ -68,6 +69,17 @@ export type ExerciseLogSetInput = {
   reps: Scalars['Int'];
   unit?: InputMaybe<Unit>;
   weight: Scalars['Float'];
+};
+
+export type ExerciseLogStats = {
+  __typename?: 'ExerciseLogStats';
+  avgReps: Scalars['Float'];
+  avgWeight: Scalars['Float'];
+  maxReps: Scalars['Int'];
+  maxWeight: Scalars['Int'];
+  minReps: Scalars['Int'];
+  minWeight: Scalars['Int'];
+  totalSets: Scalars['Int'];
 };
 
 export enum ExerciseType {
@@ -218,10 +230,16 @@ export type User = {
   username: Scalars['String'];
 };
 
+export type ExercisesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ExercisesQuery = { __typename?: 'Query', exercises: Array<{ __typename?: 'Exercise', id: string, name: string }> };
+
 export type ListExercisesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type ListExercisesQuery = { __typename?: 'Query', exercises: Array<{ __typename?: 'Exercise', id: string, name: string, createdAt: any, logs: Array<{ __typename?: 'ExerciseLog', eventDate: any }> }> };
 
 
+export const ExercisesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Exercises"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"exercises"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<ExercisesQuery, ExercisesQueryVariables>;
 export const ListExercisesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ListExercises"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"exercises"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"logs"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"eventDate"}}]}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}}]} as unknown as DocumentNode<ListExercisesQuery, ListExercisesQueryVariables>;
