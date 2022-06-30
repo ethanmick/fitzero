@@ -25,7 +25,7 @@ const Login: NextPage = () => {
 
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_ROOT}/login?redirect_to=${window.location.host}`,
+        `${process.env.NEXT_PUBLIC_API_ROOT}/login?redirect_to=${window.location.origin}`,
         {
           method: 'POST',
           credentials: 'include',
@@ -39,9 +39,7 @@ const Login: NextPage = () => {
         console.error(res)
         return
       }
-      router.push({
-        pathname: Route.Routines,
-      })
+      alert("Look for your log in link in your inbox!")
     } catch (err) {
       console.error(err)
     }
