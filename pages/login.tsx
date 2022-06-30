@@ -39,9 +39,7 @@ const Login: NextPage = () => {
         console.error(res)
         return
       }
-      router.push({
-        pathname: Route.Routines,
-      })
+      alert("Look for your log in link in your inbox!")
     } catch (err) {
       console.error(err)
     }
