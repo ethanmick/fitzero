@@ -25,7 +25,7 @@ const Login: NextPage = () => {
 
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_ROOT}/login?redirect_to=${window.location.host}`,
+        `${process.env.NEXT_PUBLIC_API_ROOT}/login?redirect_to=${window.location.origin}`,
         {
           method: 'POST',
           credentials: 'include',
