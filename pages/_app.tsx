@@ -1,13 +1,9 @@
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
+import apolloClient from 'lib/apollo'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import Colors from 'tailwindcss/colors'
 import '../styles/globals.css'
-
-const client = new ApolloClient({
-  uri: `${process.env.NEXT_PUBLIC_API_ROOT}/graphql`,
-  cache: new InMemoryCache(),
-})
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -40,7 +36,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="manifest" href="/site.webmanifest" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <ApolloProvider client={client}>
+      <ApolloProvider client={apolloClient}>
         <Component {...pageProps} />
       </ApolloProvider>
     </>
