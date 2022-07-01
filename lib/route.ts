@@ -1,6 +1,7 @@
 export enum Route {
   Exercises = '/exercises',
   Exercise = '/exercises/[exerciseId]',
+  ExerciseLogs = '/exerciselogs',
   ExerciseLogNew = '/exerciselogs/new',
   ExerciseLog = '/exerciselogs/[exerciseLogId]',
   Routines = '/routines',
