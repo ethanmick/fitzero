@@ -2,7 +2,7 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
 import apolloClient from 'lib/apollo'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
-import Colors from 'tailwindcss/colors'
+import colors from 'tailwindcss/colors'
 import '../styles/globals.css'
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -20,7 +20,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="msapplication-TileColor" content="black" />
         <meta name="msapplication-tap-highlight" content="no" />
-        <meta name="theme-color" content={Colors.neutral['900']} />
+        <meta name="theme-color" content={colors.neutral['900']} />
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
