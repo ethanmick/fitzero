@@ -40,7 +40,7 @@ type ExerciseLog = {
   avgWeight: number
 }
 
-const ExerciseLog = ({
+const ExerciseLogItem = ({
   id,
   eventDate,
   totalSets,
@@ -106,7 +106,7 @@ const ExercisePage: NextPage<Props> = ({ exercise }: Props) => {
       </button>
       <ul className="divide-y">
         {exercise.logs.map((el) => (
-          <ExerciseLog id={el.id} key={el.id} eventDate={el.eventDate} {...el.stats} />
+          <ExerciseLogItem id={el.id} key={el.id} eventDate={el.eventDate} {...el.stats} />
         ))}
       </ul>
     </Main>
