@@ -27,8 +27,8 @@ const RoutineItem = ({ id, name }: Routine) => (
           routineId: id,
         },
       }}
-    >
-      <a className="block py-8">{name}</a>
+      className="block py-8">
+      {name}
     </Link>
   </li>
 )

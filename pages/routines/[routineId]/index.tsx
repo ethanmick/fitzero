@@ -28,8 +28,8 @@ const WorkoutItem = ({ id, name, routineId }: Workout) => (
           workoutId: id,
         },
       }}
-    >
-      <a className="block py-8">{name}</a>
+      className="block py-8">
+      {name}
     </Link>
   </li>
 )

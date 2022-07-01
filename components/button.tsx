@@ -29,13 +29,13 @@ export const Back = ({ href }: BackProps) => {
       whileTap="hover"
     >
       <div className="flex absolute w-12 h-12 items-center justify-center z-10">
-        <Link href={href}>
-          <a
-            className="w-12 h-12 flex items-center justify-center"
-            onDragStart={(e) => e.preventDefault()}
-          >
-            <ArrowLeftIcon className="w-6 h-6" />
-          </a>
+        <Link
+          href={href}
+          className="w-12 h-12 flex items-center justify-center"
+          onDragStart={(e) => e.preventDefault()}>
+
+          <ArrowLeftIcon className="w-6 h-6" />
+
         </Link>
       </div>
       <motion.svg className="absolute w-12 h-12 z-0" viewBox="-25 -25 400 400">
@@ -50,5 +50,5 @@ export const Back = ({ href }: BackProps) => {
         />
       </motion.svg>
     </motion.div>
-  )
+  );
 }
