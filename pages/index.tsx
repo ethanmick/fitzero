@@ -1,7 +1,6 @@
 import { Logo } from 'components'
 import { Route } from 'lib'
 import type { NextPage } from 'next'
-import Image from 'next/image'
 import Link from 'next/link'
 
 const LogoSection = () => (
