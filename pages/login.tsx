@@ -1,5 +1,6 @@
 import { MailIcon } from '@heroicons/react/outline'
 import { Logo } from 'components'
+import { ErrorAlert } from 'components/alert'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
@@ -27,7 +28,7 @@ const AwaitConfirmation = ({ email, onUndo }: AwaitProps) => {
         <button className="underline" onClick={onUndo}>
           undo
         </button>
-        ). Please click the link in the email to login.
+        ). Please click the link in the email to log in.
       </p>
     </div>
   )
@@ -76,8 +77,9 @@ const LoginForm = ({ onSuccess }: LoginFormProps) => {
   return (
     <>
       <h1 className="text-4xl">
-        Login to <Logo />
+        Log in to <Logo />
       </h1>
+      {error && <ErrorAlert>{error}</ErrorAlert>}
       <form
         className="w-full px-4 md:px-0 md:w-[300px] flex flex-col items-center gap-8"
         onSubmit={handleSubmit(onSubmit)}
@@ -95,7 +97,7 @@ const LoginForm = ({ onSuccess }: LoginFormProps) => {
           type="submit"
         >
           <MailIcon className=" -ml-1 mr-2 w-5 h-5" />
-          <span className="text-center w-full">Login with Email</span>
+          <span className="text-center w-full">Log in with Email</span>
         </button>
       </form>
     </>
