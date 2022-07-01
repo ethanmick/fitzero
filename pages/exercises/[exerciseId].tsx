@@ -11,7 +11,6 @@ import { Menu } from 'components/menu'
 import { ExerciseQuery } from 'lib/generated'
 import { gql } from '@apollo/client'
 import Link from 'next/link'
-import internal from 'stream'
 
 const exercisePageQueryDocument = gql`
   query Exercise($exerciseId: ID!) {
@@ -35,9 +34,9 @@ const exercisePageQueryDocument = gql`
 type ExerciseLog = {
   id: string
   eventDate: string
-  totalSets: string
-  minReps: string
-  maxReps: string
+  totalSets: number
+  minReps: number
+  maxReps: number
   avgWeight: number
 }
 
@@ -107,7 +106,7 @@ const ExercisePage: NextPage<Props> = ({ exercise }: Props) => {
       </button>
       <ul className="divide-y">
         {exercise.logs.map((el) => (
-          <ExerciseLog key={el.id} eventDate={el.eventDate} {...el.stats} />
+          <ExerciseLog id={el.id} key={el.id} eventDate={el.eventDate} {...el.stats} />
         ))}
       </ul>
     </Main>
