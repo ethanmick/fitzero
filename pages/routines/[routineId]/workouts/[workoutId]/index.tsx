@@ -28,7 +28,7 @@ const ExerciseItem = ({ routineId, workoutId, id, name }: Exercise) => (
         },
       }}
     >
-      <a>{name}</a>
+      {name}
     </Link>
   </li>
 )
