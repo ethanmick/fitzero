@@ -1,11 +1,12 @@
+import { Logo } from 'components'
 import { Route } from 'lib'
 import type { NextPage } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 
-const Logo = () => (
-  <div className="flex justify-center">
-    <Image width={800 / 3} height={160 / 3} src="/logo.svg" alt="FitZero" />
+const LogoSection = () => (
+  <div className="text-center text-6xl">
+    <Logo />
   </div>
 )
 
@@ -24,7 +25,7 @@ const Temp = () => (
 const Home: NextPage = () => {
   return (
     <main className="pt-20">
-      <Logo />
+      <LogoSection />
       <Temp />
     </main>
   )
