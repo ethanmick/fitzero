@@ -35,8 +35,9 @@ const ExerciseItem = ({ id, name }: Exercise) => (
           exerciseId: id,
         },
       }}
+      className="block py-8"
     >
-      <a className="block py-8">{name}</a>
+      {name}
     </Link>
   </li>
 )

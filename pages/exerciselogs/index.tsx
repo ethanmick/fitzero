@@ -58,34 +58,33 @@ const ExerciseLogItem = ({
             exerciseLogId: id,
           },
         }}
+        className="block py-8"
       >
-        <a className="block py-8">
-          <div className="flex justify-around py-8">
-            {exerciseName}
+        <div className="flex justify-around py-8">
+          {exerciseName}
+        </div>
+        <div className="flex justify-around py-8">
+          <div className="flex flex-col items-start">
+            <div className="text-2xl">
+              {new Date(eventDate).toLocaleDateString()}
+            </div>
+            <div className="text-sm font-light uppercase">DATE</div>
           </div>
-          <div className="flex justify-around py-8">
-            <div className="flex flex-col items-start">
-              <div className="text-2xl">
-                {new Date(eventDate).toLocaleDateString()}
-              </div>
-              <div className="text-sm font-light uppercase">DATE</div>
-            </div>
-            <div className="flex flex-col items-start">
-              <div className="text-2xl">{totalSets}</div>
-              <div className="text-sm font-light uppercase">SETS</div>
-            </div>
-            <div className="flex flex-col items-start">
-              <div className="text-2xl">
-                {minReps}-{maxReps}
-              </div>
-              <div className="text-sm font-light uppercase">REPS</div>
-            </div>
-            <div className="flex flex-col items-start">
-              <div className="text-2xl">{Math.floor(avgWeight)}</div>
-              <div className="text-sm font-light uppercase">LBS</div>
-            </div>
+          <div className="flex flex-col items-start">
+            <div className="text-2xl">{totalSets}</div>
+            <div className="text-sm font-light uppercase">SETS</div>
           </div>
-        </a>
+          <div className="flex flex-col items-start">
+            <div className="text-2xl">
+              {minReps}-{maxReps}
+            </div>
+            <div className="text-sm font-light uppercase">REPS</div>
+          </div>
+          <div className="flex flex-col items-start">
+            <div className="text-2xl">{Math.floor(avgWeight)}</div>
+            <div className="text-sm font-light uppercase">LBS</div>
+          </div>
+        </div>
       </Link>
     </li>
   )

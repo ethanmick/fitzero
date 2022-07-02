@@ -99,8 +99,9 @@ const ExerciseLogPage: NextPage<Props> = ({ exerciseLog }: Props) => {
               exerciseId: exerciseLog.exercise.id,
             },
           }}
+          className="block py-8"
         >
-          <a className="block py-8">New {exerciseLog.exercise.name} Log</a>
+          New {exerciseLog.exercise.name} Log
         </Link>
       </button>
     </Main>

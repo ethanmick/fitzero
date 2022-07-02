@@ -57,29 +57,30 @@ const ExerciseLogItem = ({
             exerciseLogId: id,
           },
         }}
+        className="block py-8"
       >
-        <a className="block py-8">
-          <div className="flex justify-around py-8">
-            <div className="flex flex-col items-start">
-              <div className="text-2xl">{new Date(eventDate).toLocaleDateString()}</div>
-              <div className="text-sm font-light uppercase">DATE</div>
+        <div className="flex justify-around py-8">
+          <div className="flex flex-col items-start">
+            <div className="text-2xl">
+              {new Date(eventDate).toLocaleDateString()}
             </div>
-            <div className="flex flex-col items-start">
-              <div className="text-2xl">{totalSets}</div>
-              <div className="text-sm font-light uppercase">SETS</div>
-            </div>
-            <div className="flex flex-col items-start">
-              <div className="text-2xl">
-                {minReps}-{maxReps}
-              </div>
-              <div className="text-sm font-light uppercase">REPS</div>
-            </div>
-            <div className="flex flex-col items-start">
-              <div className="text-2xl">{Math.floor(avgWeight)}</div>
-              <div className="text-sm font-light uppercase">LBS</div>
-            </div>
+            <div className="text-sm font-light uppercase">DATE</div>
           </div>
-        </a>
+          <div className="flex flex-col items-start">
+            <div className="text-2xl">{totalSets}</div>
+            <div className="text-sm font-light uppercase">SETS</div>
+          </div>
+          <div className="flex flex-col items-start">
+            <div className="text-2xl">
+              {minReps}-{maxReps}
+            </div>
+            <div className="text-sm font-light uppercase">REPS</div>
+          </div>
+          <div className="flex flex-col items-start">
+            <div className="text-2xl">{Math.floor(avgWeight)}</div>
+            <div className="text-sm font-light uppercase">LBS</div>
+          </div>
+        </div>
       </Link>
     </li>
   )
@@ -100,13 +101,19 @@ const ExercisePage: NextPage<Props> = ({ exercise }: Props) => {
               exerciseId: exercise.id,
             },
           }}
+          className="block py-8"
         >
-          <a className="block py-8">New Log</a>
+          New Log
         </Link>
       </button>
       <ul className="divide-y">
         {exercise.logs.map((el) => (
-          <ExerciseLogItem id={el.id} key={el.id} eventDate={el.eventDate} {...el.stats} />
+          <ExerciseLogItem
+            id={el.id}
+            key={el.id}
+            eventDate={el.eventDate}
+            {...el.stats}
+          />
         ))}
       </ul>
     </Main>
