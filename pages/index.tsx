@@ -12,14 +12,21 @@ const LogoSection = () => (
   </div>
 )
 
-const Temp = () => (
-  <div className="flex justify-center mt-8">
+const Auth = () => (
+  <div className="flex justify-center mt-8 gap-8">
     <Link
       href={{
         pathname: Route.Login,
       }}
       className="px-4 py-2 border border-gray-50 text-xl">
       Login
+    </Link>
+    <Link
+      href={{
+        pathname: Route.Register,
+      }}
+      className="px-4 py-2 border border-gray-50 text-xl">
+      Register
     </Link>
   </div>
 )
@@ -28,7 +35,7 @@ const Home: NextPage = () => {
   return (
     <main className="pt-20">
       <LogoSection />
-      <Temp />
+      <Auth />
     </main>
   )
 }
