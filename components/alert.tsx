@@ -8,7 +8,7 @@ type Props = {} & React.DetailedHTMLProps<
 
 export const ErrorAlert = ({ className, children }: Props) => {
   return (
-    <div className={cx('rounded-md bg-red-50 p-4', className)}>
+    <div className={cx('rounded-md bg-red-50 p-4 text-neutral-900', className)}>
       <div className="flex">
         <div className="flex-shrink-0">
           <XCircleIcon className="h-5 w-5 text-red-400" aria-hidden="true" />
