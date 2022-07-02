@@ -1,9 +1,6 @@
 import { Logo } from 'components'
 import { Route } from 'lib'
 import type { NextPage } from 'next'
-import { Header, PageTitle } from 'components'
-import { Main } from 'components/layout'
-import { Menu } from 'components/menu'
 import Link from 'next/link'
 
 const LogoSection = () => (
@@ -19,14 +16,14 @@ const Auth = () => (
         pathname: Route.Login,
       }}
       className="px-4 py-2 border border-gray-50 text-xl">
-      Login
+      Log in
     </Link>
     <Link
       href={{
-        pathname: Route.Register,
+        pathname: Route.Signup,
       }}
       className="px-4 py-2 border border-gray-50 text-xl">
-      Register
+      Sign up
     </Link>
   </div>
 )
