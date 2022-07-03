@@ -1,4 +1,6 @@
 export enum Route {
+  Workouts = '/workouts',
+  Workout = '/workouts/[workoutId]',
   Exercises = '/exercises',
   Exercise = '/exercises/[exerciseId]',
   ExerciseLogs = '/exerciselogs',
