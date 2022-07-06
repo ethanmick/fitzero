@@ -2,10 +2,8 @@ import { MailIcon } from '@heroicons/react/outline'
 import { Logo } from 'components'
 import { ErrorAlert } from 'components/alert'
 import { NextPage } from 'next'
-import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { workerData } from 'worker_threads'
 
 type FormData = {
   email: string
@@ -18,17 +16,19 @@ type AwaitProps = {
 
 const AwaitConfirmation = ({ email, onUndo }: AwaitProps) => {
   return (
-    <div className="flex flex-col gap-4 max-w-md">
+    <div className="flex max-w-md flex-col gap-4">
       <h1 className="text-center text-4xl">Waiting for Confirmation</h1>
       <h2 className="text-lg">
         Please do not close this window until opening the email link.
       </h2>
       <p>
-        We just sent an email to <span className="font-bold">{email}</span> (
-        <button className="underline" onClick={onUndo}>
-          undo
-        </button>
-        ). Please click the link in the email to log in.
+        We just sent an email to <span className="font-bold">{email}</span>{' '}
+        <span className="break">
+          <button className="underline" onClick={onUndo}>
+            (undo)
+          </button>
+        </span>
+        . Please click the link in the email to log in.
       </p>
     </div>
   )
@@ -81,23 +81,23 @@ const LoginForm = ({ onSuccess }: LoginFormProps) => {
       </h1>
       {error && <ErrorAlert>{error}</ErrorAlert>}
       <form
-        className="w-full px-4 md:px-0 md:w-[300px] flex flex-col items-center gap-8"
+        className="flex w-full flex-col items-center gap-8 md:w-[300px]"
         onSubmit={handleSubmit(onSubmit)}
       >
         <input
           {...register('email')}
           required
           autoFocus
-          className="bg-gray-700 border w-full"
+          className="w-full border bg-gray-700"
           placeholder="Email Address"
           type="email"
         />
         <button
-          className="inline-flex items-center border font-medium px-4 py-2 w-full"
+          className="inline-flex w-full items-center border px-4 py-2 font-medium"
           type="submit"
         >
-          <MailIcon className=" -ml-1 mr-2 w-5 h-5" />
-          <span className="text-center w-full">Log in with Email</span>
+          <MailIcon className=" -ml-1 mr-2 h-5 w-5" />
+          <span className="w-full text-center">Log in with Email</span>
         </button>
       </form>
     </>
@@ -116,7 +116,7 @@ const Login: NextPage = () => {
   const undo = () => setSent(false)
 
   return (
-    <main className="mt-20 md:mt-64 flex flex-col items-center gap-12">
+    <main className="mt-20 flex flex-col items-center gap-12 px-4 md:mt-64 md:px-0">
       {sent ? (
         <AwaitConfirmation email={email} onUndo={undo} />
       ) : (

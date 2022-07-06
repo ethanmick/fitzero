@@ -14,6 +14,11 @@ export type Scalars = {
   Time: any;
 };
 
+export type ChangeWorkoutExerciseInput = {
+  exerciseId: Scalars['ID'];
+  workoutId: Scalars['ID'];
+};
+
 export type CreateExerciseInput = {
   name: Scalars['String'];
   type: ExerciseType;
@@ -29,6 +34,11 @@ export type CreateUserInput = {
   email: Scalars['String'];
   password: Scalars['String'];
   username: Scalars['String'];
+};
+
+export type CreateWorkoutInput = {
+  exerciseIds: Array<Scalars['ID']>;
+  name: Scalars['String'];
 };
 
 export type Exercise = {
@@ -89,15 +99,24 @@ export enum ExerciseType {
 /** The mutation root of the GraphQL interface. */
 export type Mutation = {
   __typename?: 'Mutation';
+  addExerciseToWorkout: Workout;
   createExercise: Exercise;
   createExerciseLog: ExerciseLog;
   createUser: User;
+  createWorkout: Workout;
   deleteExercise: Scalars['ID'];
   deleteExerciseLog: Scalars['ID'];
   noop: Scalars['Int'];
+  removeExerciseFromWorkout: Workout;
   updateExercise: Exercise;
   updateExerciseLog: ExerciseLog;
   updateUser: User;
+};
+
+
+/** The mutation root of the GraphQL interface. */
+export type MutationAddExerciseToWorkoutArgs = {
+  input: ChangeWorkoutExerciseInput;
 };
 
 
@@ -120,6 +139,12 @@ export type MutationCreateUserArgs = {
 
 
 /** The mutation root of the GraphQL interface. */
+export type MutationCreateWorkoutArgs = {
+  workout: CreateWorkoutInput;
+};
+
+
+/** The mutation root of the GraphQL interface. */
 export type MutationDeleteExerciseArgs = {
   id: Scalars['ID'];
 };
@@ -128,6 +153,12 @@ export type MutationDeleteExerciseArgs = {
 /** The mutation root of the GraphQL interface. */
 export type MutationDeleteExerciseLogArgs = {
   id: Scalars['ID'];
+};
+
+
+/** The mutation root of the GraphQL interface. */
+export type MutationRemoveExerciseFromWorkoutArgs = {
+  input: ChangeWorkoutExerciseInput;
 };
 
 
@@ -159,6 +190,8 @@ export type Query = {
   me: User;
   user: User;
   users: Array<User>;
+  workout: Workout;
+  workouts: Array<Workout>;
 };
 
 
@@ -191,6 +224,12 @@ export type QueryExercisesArgs = {
 
 /** The query root of the GraphQL interface. */
 export type QueryUserArgs = {
+  id: Scalars['ID'];
+};
+
+
+/** The query root of the GraphQL interface. */
+export type QueryWorkoutArgs = {
   id: Scalars['ID'];
 };
 
@@ -228,6 +267,17 @@ export type User = {
   id: Scalars['ID'];
   type: Scalars['String'];
   username: Scalars['String'];
+};
+
+export type Workout = {
+  __typename?: 'Workout';
+  createdAt: Scalars['Time'];
+  createdBy: User;
+  exercises: Array<Exercise>;
+  id: Scalars['ID'];
+  modifiedAt?: Maybe<Scalars['Time']>;
+  modifiedBy?: Maybe<User>;
+  name: Scalars['String'];
 };
 
 export type ExerciseLogQueryVariables = Exact<{
@@ -273,6 +323,23 @@ export type ListExercisesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type ListExercisesQuery = { __typename?: 'Query', exercises: Array<{ __typename?: 'Exercise', id: string, name: string, createdAt: any, logs: Array<{ __typename?: 'ExerciseLog', eventDate: any }> }> };
 
+export type WorkoutsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type WorkoutsQuery = { __typename?: 'Query', workouts: Array<{ __typename?: 'Workout', id: string, name: string }> };
+
+export type NewWorkoutPageQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type NewWorkoutPageQuery = { __typename?: 'Query', exercises: Array<{ __typename?: 'Exercise', id: string, name: string }> };
+
+export type CreateWorkoutMutationVariables = Exact<{
+  workout: CreateWorkoutInput;
+}>;
+
+
+export type CreateWorkoutMutation = { __typename?: 'Mutation', createWorkout: { __typename?: 'Workout', id: string } };
+
 
 export const ExerciseLogDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ExerciseLog"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"exerciseLogId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"exerciseLog"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"exerciseLogId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"eventDate"}},{"kind":"Field","name":{"kind":"Name","value":"exercise"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"sets"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"setNumber"}},{"kind":"Field","name":{"kind":"Name","value":"reps"}},{"kind":"Field","name":{"kind":"Name","value":"weight"}}]}}]}}]}}]} as unknown as DocumentNode<ExerciseLogQuery, ExerciseLogQueryVariables>;
 export const ExerciseLogsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ExerciseLogs"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"exerciseLogs"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"eventDate"}},{"kind":"Field","name":{"kind":"Name","value":"exercise"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"stats"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalSets"}},{"kind":"Field","name":{"kind":"Name","value":"minReps"}},{"kind":"Field","name":{"kind":"Name","value":"maxReps"}},{"kind":"Field","name":{"kind":"Name","value":"avgWeight"}}]}}]}}]}}]} as unknown as DocumentNode<ExerciseLogsQuery, ExerciseLogsQueryVariables>;
@@ -281,3 +348,6 @@ export const CreateExerciseLogDocument = {"kind":"Document","definitions":[{"kin
 export const ExerciseDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Exercise"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"exerciseId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"exercise"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"exerciseId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"logs"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"eventDate"}},{"kind":"Field","name":{"kind":"Name","value":"stats"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalSets"}},{"kind":"Field","name":{"kind":"Name","value":"minReps"}},{"kind":"Field","name":{"kind":"Name","value":"maxReps"}},{"kind":"Field","name":{"kind":"Name","value":"avgWeight"}}]}}]}}]}}]}}]} as unknown as DocumentNode<ExerciseQuery, ExerciseQueryVariables>;
 export const ExercisesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Exercises"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"exercises"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<ExercisesQuery, ExercisesQueryVariables>;
 export const ListExercisesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ListExercises"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"exercises"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"logs"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"eventDate"}}]}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}}]} as unknown as DocumentNode<ListExercisesQuery, ListExercisesQueryVariables>;
+export const WorkoutsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Workouts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"workouts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<WorkoutsQuery, WorkoutsQueryVariables>;
+export const NewWorkoutPageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"NewWorkoutPage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"exercises"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<NewWorkoutPageQuery, NewWorkoutPageQueryVariables>;
+export const CreateWorkoutDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateWorkout"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"workout"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateWorkoutInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createWorkout"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"workout"},"value":{"kind":"Variable","name":{"kind":"Name","value":"workout"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreateWorkoutMutation, CreateWorkoutMutationVariables>;
