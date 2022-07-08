@@ -4,5 +4,6 @@ export * from './heading'
 export * from './input'
 export * from './layout'
 export * from './logo'
-export * from './nav'
+export * from './navigation'
+export * from './tab-bar'
 
