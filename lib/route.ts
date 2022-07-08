@@ -1,4 +1,5 @@
 export enum Route {
+  Root = "/",
   Workouts = '/workouts',
   Workout = '/workouts/[workoutId]',
   WorkoutNew = '/workouts/new',

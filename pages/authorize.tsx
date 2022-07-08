@@ -1,4 +1,4 @@
-import { Logo } from 'components'
+import { Back, Logo, Navigation } from 'components'
 import { Route } from 'lib'
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
@@ -30,12 +30,15 @@ const AuthorizePage: NextPage = () => {
   }, [router, token, email])
 
   return (
-    <main className="mt-20 flex flex-col items-center gap-12 md:mt-64">
-      <h1 className="text-4xl">
-        Logging in to <Logo />
-      </h1>
-      <div>...</div>
-    </main>
+    <>
+      <Navigation left={<Back href={Route.Root} />} />
+      <main className="mt-20 flex flex-col items-center gap-12 md:mt-64">
+        <h1 className="text-4xl">
+          Logging in to <Logo />
+        </h1>
+        <div>...</div>
+      </main>
+    </>
   )
 }
 

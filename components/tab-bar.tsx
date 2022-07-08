@@ -3,8 +3,8 @@ import { UrlObject } from 'url'
 
 type TabProps = {
   name: string
-  icon: string
-  href: UrlObject
+  icon?: string
+  href: UrlObject | string
   active?: string
 }
 

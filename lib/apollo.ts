@@ -17,7 +17,6 @@ export const query = async <Query = any, Variables = any>(
   variables?: Variables
 ) => {
   const token = getCookie('token', ctx) as string
-  console.log('Token', token)
   const apolloClient = new ApolloClient({
     uri,
     cache: new InMemoryCache(),

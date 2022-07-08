@@ -1,4 +1,4 @@
-import { ArrowLeftIcon } from '@heroicons/react/outline'
+import { ChevronLeftIcon } from '@heroicons/react/outline'
 import { motion, Variants } from 'framer-motion'
 import Link, { LinkProps } from 'next/link'
 import Colors from 'tailwindcss/colors'
@@ -23,22 +23,21 @@ const circle: Variants = {
 export const Back = ({ href }: BackProps) => {
   return (
     <motion.div
-      className="relative w-12 h-12"
+      className="relative h-12 w-12"
       initial="initial"
       whileHover="hover"
       whileTap="hover"
     >
-      <div className="flex absolute w-12 h-12 items-center justify-center z-10">
+      <div className="z-10 flex h-12 w-12 items-center justify-center">
         <Link
           href={href}
-          className="w-12 h-12 flex items-center justify-center"
-          onDragStart={(e) => e.preventDefault()}>
-
-          <ArrowLeftIcon className="w-6 h-6" />
-
+          className="flex h-12 w-12 items-center justify-center"
+          onDragStart={(e) => e.preventDefault()}
+        >
+          <ChevronLeftIcon className="h-6 w-6" />
         </Link>
       </div>
-      <motion.svg className="absolute w-12 h-12 z-0" viewBox="-25 -25 400 400">
+      <motion.svg className="absolute z-0 h-12 w-12" viewBox="-25 -25 400 400">
         <motion.circle
           variants={circle}
           stroke={Colors.amber['500']}
@@ -50,5 +49,5 @@ export const Back = ({ href }: BackProps) => {
         />
       </motion.svg>
     </motion.div>
-  );
+  )
 }

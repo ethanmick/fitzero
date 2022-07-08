@@ -1,7 +1,7 @@
 type Props = {
   left?: React.ReactNode
   right?: React.ReactNode
-  children: React.ReactNode
+  children?: React.ReactNode
 }
 
 export const Navigation = ({ left, children, right }: Props) => (

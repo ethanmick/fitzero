@@ -1,8 +1,6 @@
 import { gql } from '@apollo/client'
-import { PageTitle } from 'components'
-import { Header } from 'components/header'
+import { Navigation } from 'components'
 import { Main } from 'components/layout'
-import { Menu } from 'components/menu'
 import { query, Route } from 'lib'
 import { WorkoutsQuery } from 'lib/generated'
 import {
@@ -52,9 +50,7 @@ type Props = InferGetServerSidePropsType<typeof getServerSideProps>
 const WorkoutsPage: NextPage<Props> = ({ workouts }: Props) => {
   return (
     <Main>
-      <Header right={<Menu />}>
-        <PageTitle>Workouts</PageTitle>
-      </Header>
+      <Navigation>Workouts</Navigation>
       {workouts.length == 0 && <Blankslate />}
       {workouts.length > 0 && (
         <ul className="divide-y">

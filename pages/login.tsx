@@ -1,6 +1,7 @@
 import { MailIcon } from '@heroicons/react/outline'
-import { Logo } from 'components'
+import { Back, Logo, Navigation } from 'components'
 import { ErrorAlert } from 'components/alert'
+import { Route } from 'lib'
 import { NextPage } from 'next'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -116,13 +117,16 @@ const Login: NextPage = () => {
   const undo = () => setSent(false)
 
   return (
-    <main className="mt-20 flex flex-col items-center gap-12 px-4 md:mt-64 md:px-0">
-      {sent ? (
-        <AwaitConfirmation email={email} onUndo={undo} />
-      ) : (
-        <LoginForm onSuccess={onSend} />
-      )}
-    </main>
+    <>
+      <Navigation left={<Back href={Route.Root} />} />
+      <main className="mt-20 flex flex-col items-center gap-12 px-4 md:mt-64 md:px-0">
+        {sent ? (
+          <AwaitConfirmation email={email} onUndo={undo} />
+        ) : (
+          <LoginForm onSuccess={onSend} />
+        )}
+      </main>
+    </>
   )
 }
 
