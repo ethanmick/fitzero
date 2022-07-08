@@ -65,7 +65,8 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
         destination: Route.Workouts,
       },
     }
-  } catch {
+  } catch (err) {
+    console.error(err)
     return {
       props: {},
     }

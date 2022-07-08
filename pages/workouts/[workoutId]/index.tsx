@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { Header, Main, PageTitle } from 'components'
+import { Back, Header, Main, Navigation, PageTitle } from 'components'
 import { query, Route } from 'lib'
 import { WorkoutQuery, WorkoutQueryVariables } from 'lib/generated'
 import {
@@ -25,28 +25,31 @@ const workoutQuery = gql`
 type Props = InferGetServerSidePropsType<typeof getServerSideProps>
 const WorkoutPage: NextPage<Props> = ({ workout }: Props) => {
   return (
-    <Main>
-      <Header>
-        <PageTitle>{workout.name}</PageTitle>
-      </Header>
-      <div>
-        {workout.exercises.map(({ id, name }) => (
-          <Link
-            className="block"
-            href={{
-              pathname: Route.WorkoutExercise,
-              query: {
-                workoutId: workout.id,
-                exerciseId: id,
-              },
-            }}
-            key={id}
-          >
-            {name}
-          </Link>
-        ))}
-      </div>
-    </Main>
+    <>
+      <Navigation left={<Back href={Route.Workouts} />} />
+      <Main>
+        <Header>
+          <PageTitle>{workout.name}</PageTitle>
+        </Header>
+        <div>
+          {workout.exercises.map(({ id, name }) => (
+            <Link
+              className="block"
+              href={{
+                pathname: Route.WorkoutExercise,
+                query: {
+                  workoutId: workout.id,
+                  exerciseId: id,
+                },
+              }}
+              key={id}
+            >
+              {name}
+            </Link>
+          ))}
+        </div>
+      </Main>
+    </>
   )
 }
 
