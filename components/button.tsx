@@ -29,17 +29,8 @@ export const Back = ({ href }: BackProps) => {
       whileHover="hover"
       whileTap="hover"
     >
-      <div className="z-10 flex h-12 w-12 items-center justify-center">
-        <Link
-          href={href}
-          className="flex h-12 w-12 items-center justify-center"
-          onDragStart={(e) => e.preventDefault()}
-        >
-          <ChevronLeftIcon className="h-6 w-6" />
-        </Link>
-      </div>
       <motion.svg
-        className="absolute top-0 z-0 h-12 w-12"
+        className="absolute top-0 -z-10 h-12 w-12"
         viewBox="-25 -25 400 400"
       >
         <motion.circle
@@ -52,6 +43,13 @@ export const Back = ({ href }: BackProps) => {
           fill="none"
         />
       </motion.svg>
+      <Link
+        href={href}
+        className="z-50 flex h-12 w-12 items-center justify-center"
+        onDragStart={(e) => e.preventDefault()}
+      >
+        <ChevronLeftIcon className="h-6 w-6" />
+      </Link>
     </motion.div>
   )
 }
