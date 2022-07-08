@@ -21,7 +21,7 @@ const AuthorizePage: NextPage = () => {
         )
 
         if (res.status === 200) {
-          // router.push(Route.Exercises)
+          router.push(Route.Exercises)
         }
       } catch (err: any) {
         console.error(err)
