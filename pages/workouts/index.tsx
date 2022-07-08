@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { Navigation } from 'components'
+import { Menu, Navigation } from 'components'
 import { Main } from 'components/layout'
 import { query, Route } from 'lib'
 import { WorkoutsQuery } from 'lib/generated'
@@ -49,17 +49,19 @@ const WorkoutItem = ({ id, name }: WorkoutItemProps) => (
 type Props = InferGetServerSidePropsType<typeof getServerSideProps>
 const WorkoutsPage: NextPage<Props> = ({ workouts }: Props) => {
   return (
-    <Main>
-      <Navigation>Workouts</Navigation>
-      {workouts.length == 0 && <Blankslate />}
-      {workouts.length > 0 && (
-        <ul className="divide-y">
-          {workouts.map((w) => (
-            <WorkoutItem key={w.id} {...w} />
-          ))}
-        </ul>
-      )}
-    </Main>
+    <>
+      <Navigation right={<Menu />}>Workouts</Navigation>
+      <Main>
+        {workouts.length == 0 && <Blankslate />}
+        {workouts.length > 0 && (
+          <ul className="divide-y">
+            {workouts.map((w) => (
+              <WorkoutItem key={w.id} {...w} />
+            ))}
+          </ul>
+        )}
+      </Main>
+    </>
   )
 }
 
