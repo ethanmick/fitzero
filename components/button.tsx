@@ -38,7 +38,10 @@ export const Back = ({ href }: BackProps) => {
           <ChevronLeftIcon className="h-6 w-6" />
         </Link>
       </div>
-      <motion.svg className="absolute z-0 h-12 w-12" viewBox="-25 -25 400 400">
+      <motion.svg
+        className="absolute top-0 z-0 h-12 w-12"
+        viewBox="-25 -25 400 400"
+      >
         <motion.circle
           variants={circle}
           stroke={Colors.amber['500']}
