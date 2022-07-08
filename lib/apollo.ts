@@ -16,14 +16,16 @@ export const query = async <Query = any, Variables = any>(
   query: DocumentNode,
   variables?: Variables
 ) => {
-  const token = getCookie('token', ctx) as string
+  const token = getCookie('token', ctx)
   const apolloClient = new ApolloClient({
     uri,
     cache: new InMemoryCache(),
     credentials: 'include',
     headers: {
+      ...( token ? {
       Cookie: `token=${token}`,
-      Authorization: token,
+      Authorization: `${token}`,
+      }: {})
     },
   })
 
