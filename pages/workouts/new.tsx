@@ -1,5 +1,5 @@
 import { gql, useMutation } from '@apollo/client'
-import { FormInput, Header, Main, PageTitle } from 'components'
+import { Back, FormInput, Main, Navigation } from 'components'
 import { query, Route } from 'lib'
 import {
   CreateWorkoutMutation,
@@ -79,21 +79,21 @@ const NewWorkout: NextPage<Props> = ({ exercises }) => {
   }
 
   return (
-    <Main>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Header>
-          <PageTitle>New Workout</PageTitle>
-        </Header>
-        <FormInput {...register('name')} label="Workout Name" />
-      </form>
-      <ul>
-        {exercises.map(({ id, name }) => (
-          <li onClick={() => append({ id })} key={id}>
-            {name}
-          </li>
-        ))}
-      </ul>
-    </Main>
+    <>
+      <Navigation left={<Back href={Route.Root} />}>Create Workout</Navigation>
+      <Main>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <FormInput {...register('name')} label="Workout Name" />
+        </form>
+        <ul>
+          {exercises.map(({ id, name }) => (
+            <li onClick={() => append({ id })} key={id}>
+              {name}
+            </li>
+          ))}
+        </ul>
+      </Main>
+    </>
   )
 }
 

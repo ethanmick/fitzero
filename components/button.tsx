@@ -1,4 +1,5 @@
-import { ChevronLeftIcon } from '@heroicons/react/outline'
+import { ChevronLeftIcon, PlusIcon } from '@heroicons/react/outline'
+import cx from 'classnames'
 import { motion, Variants } from 'framer-motion'
 import Link, { LinkProps } from 'next/link'
 import Colors from 'tailwindcss/colors'
@@ -49,5 +50,18 @@ export const Back = ({ href }: BackProps) => {
         />
       </motion.svg>
     </motion.div>
+  )
+}
+
+type AddProps = LinkProps & React.AnchorHTMLAttributes<HTMLAnchorElement>
+
+export const Add = ({ className, ...rest }: AddProps) => {
+  return (
+    <Link
+      className={cx('flex h-12 w-12 items-center justify-center', className)}
+      {...rest}
+    >
+      <PlusIcon className="h-5 w-5" />
+    </Link>
   )
 }

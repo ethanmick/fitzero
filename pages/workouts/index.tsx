@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { Menu, Navigation } from 'components'
+import { Add, Navigation } from 'components'
 import { Main } from 'components/layout'
 import { query, Route } from 'lib'
 import { WorkoutsQuery } from 'lib/generated'
@@ -50,8 +50,8 @@ type Props = InferGetServerSidePropsType<typeof getServerSideProps>
 const WorkoutsPage: NextPage<Props> = ({ workouts }: Props) => {
   return (
     <>
-      <Navigation right={<Menu />}>Workouts</Navigation>
-      <Main>
+      <Navigation right={<Add href={Route.WorkoutNew} />}>Workouts</Navigation>
+      <Main className="">
         {workouts.length == 0 && <Blankslate />}
         {workouts.length > 0 && (
           <ul className="divide-y">
