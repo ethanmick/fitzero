@@ -3,8 +3,10 @@ import { Back, Logo, Navigation } from 'components'
 import { ErrorAlert } from 'components/alert'
 import { Route } from 'lib'
 import { NextPage } from 'next'
-import { useState } from 'react'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import useSWR from 'swr'
 
 type FormData = {
   email: string
@@ -12,10 +14,24 @@ type FormData = {
 
 type AwaitProps = {
   email: string
+  token: string
   onUndo: () => void
 }
 
-const AwaitConfirmation = ({ email, onUndo }: AwaitProps) => {
+const AwaitConfirmation = ({ email, token, onUndo }: AwaitProps) => {
+  const router = useRouter()
+  const url = `${process.env.NEXT_PUBLIC_API_ROOT}/verify?email=${email}&token=${token}`
+  const { data, error } = useSWR([url, { credentials: 'include' }], {
+    refreshInterval: 3000,
+  })
+
+  useEffect(() => {
+    if (!data) {
+      return
+    }
+    router.push(Route.Workouts)
+  }, [router, data])
+
   return (
     <div className="flex max-w-md flex-col gap-4">
       <h1 className="text-center text-4xl">Waiting for Confirmation</h1>
@@ -36,7 +52,7 @@ const AwaitConfirmation = ({ email, onUndo }: AwaitProps) => {
 }
 
 type LoginFormProps = {
-  onSuccess: (email: string) => void
+  onSuccess: (email: string, token: string) => void
 }
 
 /**
@@ -65,11 +81,11 @@ const LoginForm = ({ onSuccess }: LoginFormProps) => {
         }
       )
       if (res.status >= 400) {
-        console.error(res)
         setError((await res.json()) || `Sorry, that didn't work.`)
         return
       }
-      onSuccess(email)
+      const { token } = await res.json()
+      onSuccess(email, token)
     } catch (err: any) {
       setError(err?.message)
     }
@@ -105,12 +121,23 @@ const LoginForm = ({ onSuccess }: LoginFormProps) => {
   )
 }
 
+type AuthResponse = {
+  email: string
+  token: string
+}
+
 const Login: NextPage = () => {
-  const [email, setEmail] = useState('')
+  const [auth, setAuth] = useState<AuthResponse>({
+    email: '',
+    token: '',
+  })
   const [sent, setSent] = useState(false)
 
-  const onSend = (email: string) => {
-    setEmail(email)
+  const onSend = (email: string, token: string) => {
+    setAuth({
+      email,
+      token,
+    })
     setSent(true)
   }
 
@@ -121,7 +148,11 @@ const Login: NextPage = () => {
       <Navigation left={<Back href={Route.Root} />} />
       <main className="mt-20 flex flex-col items-center gap-12 px-4 md:mt-64 md:px-0">
         {sent ? (
-          <AwaitConfirmation email={email} onUndo={undo} />
+          <AwaitConfirmation
+            email={auth.email}
+            token={auth.token}
+            onUndo={undo}
+          />
         ) : (
           <LoginForm onSuccess={onSend} />
         )}

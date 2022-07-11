@@ -1,4 +1,5 @@
 export enum Route {
+  LoginFailed = "/login/failed",
   Root = "/",
   Workouts = '/workouts',
   Workout = '/workouts/[workoutId]',

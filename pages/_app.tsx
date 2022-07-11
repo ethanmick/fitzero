@@ -1,7 +1,9 @@
 import { ApolloProvider } from '@apollo/client'
+import { fetcher } from 'lib'
 import apolloClient from 'lib/apollo'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
+import { SWRConfig } from 'swr'
 import colors from 'tailwindcss/colors'
 import '../styles/globals.css'
 
@@ -35,9 +37,15 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="manifest" href="/site.webmanifest" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <ApolloProvider client={apolloClient}>
-        <Component {...pageProps} />
-      </ApolloProvider>
+      <SWRConfig
+        value={{
+          fetcher,
+        }}
+      >
+        <ApolloProvider client={apolloClient}>
+          <Component {...pageProps} />
+        </ApolloProvider>
+      </SWRConfig>
     </>
   )
 }
