@@ -47,7 +47,6 @@ const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
         },
       })
       if (res.status >= 400) {
-        console.error(res)
         setError((await res.json()) || `Sorry, that didn't work.`)
         return
       }
