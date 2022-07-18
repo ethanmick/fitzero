@@ -1,4 +1,4 @@
-import { Back } from 'components'
+import { Back, Main } from 'components'
 import {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
@@ -6,11 +6,20 @@ import {
 } from 'next'
 import Head from 'next/head'
 import { query, Route } from 'lib'
-import { ExerciseQuery } from 'lib/generated'
-import { gql } from '@apollo/client'
+import {
+  CreateExerciseLogInput,
+  CreateExerciseLogMutation,
+  CreateExerciseLogMutationVariables,
+  ExerciseQuery,
+  Unit,
+} from 'lib/generated'
+import { gql, useMutation } from '@apollo/client'
 import { MinusIcon } from '@heroicons/react/outline'
 import { useState } from 'react'
 import { v4 as uuid } from 'uuid'
+import router from 'next/router'
+import { useForm } from 'react-hook-form'
+import { appendFile } from 'fs'
 
 const fetchExerciseQuery = gql`
   query ExerciseForNewExerciseLog($exerciseId: ID!) {
@@ -38,6 +47,10 @@ const createExerciseLogMutation = gql`
     }
   }
 `
+
+type FormData = {
+  eventDate: Date
+}
 
 type ExerciseLog = {
   eventDate: string
@@ -88,11 +101,13 @@ const Sets = ({
 }: SetsProps) => {
   return (
     <div className="bg-neutral-900 px-4 shadow">
-      <h2 className="text-2xl py-8">Sets</h2>
+      <h2 className="py-8 text-2xl">Sets</h2>
       <h3>Previous</h3>
       <div className="flex justify-around py-8">
         <div className="flex flex-col items-start">
-          <div className="text-2xl">{new Date(previousLogStats?.eventDate).toLocaleDateString()}</div>
+          <div className="text-2xl">
+            {new Date(previousLogStats?.eventDate).toLocaleDateString()}
+          </div>
           <div className="text-sm font-light uppercase">Date</div>
         </div>
         <div className="flex flex-col items-start">
@@ -117,9 +132,9 @@ const Sets = ({
           <div className="col-span-4">Weight</div>
         </li>
         {sets.map((s, i) => (
-          <li key={s.id} className="grid grid-cols-10 gap-8 py-8 items-center">
+          <li key={s.id} className="grid grid-cols-10 items-center gap-8 py-8">
             <div className="ordinal">{ordinal(i + 1)}</div>
-            <div className="mt-1 relative rounded-md shadow-sm col-span-4">
+            <div className="relative col-span-4 mt-1 rounded-md shadow-sm">
               <input
                 autoComplete="off"
                 type="number"
@@ -132,10 +147,10 @@ const Sets = ({
                   })
                 }
                 placeholder={'0'}
-                className="shadow-sm focus:ring-amber-500 focus:border-amber-500 block w-full sm:text-sm border-gray-300 bg-neutral-800"
+                className="block w-full border-gray-300 bg-neutral-800 shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm"
               />
             </div>
-            <div className="mt-1 relative rounded-md col-span-4">
+            <div className="relative col-span-4 mt-1 rounded-md">
               <input
                 autoComplete="off"
                 inputMode="decimal"
@@ -148,9 +163,9 @@ const Sets = ({
                     weight: e.target.value,
                   })
                 }
-                className="shadow-sm focus:ring-amber-500 focus:border-amber-500 block w-full sm:text-sm border-gray-300 bg-neutral-800"
+                className="block w-full border-gray-300 bg-neutral-800 shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm"
               />
-              <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                 <span className="text-gray-500 sm:text-sm" id="price-currency">
                   lbs
                 </span>
@@ -158,15 +173,16 @@ const Sets = ({
             </div>
             <div>
               <button onClick={() => onRemove(s)}>
-                <MinusIcon className="w-5 h-5" />
+                <MinusIcon className="h-5 w-5" />
               </button>
             </div>
           </li>
         ))}
         <div className="pb-12">
           <button
-            className="border w-full py-4 border-neutral-300"
+            className="w-full border border-neutral-300 py-4"
             onClick={onAdd}
+            type="button"
           >
             Another Set
           </button>
@@ -183,13 +199,19 @@ type NameProps = React.DetailedHTMLProps<
 
 const Name = ({ children, ...rest }: NameProps) => (
   <div className="px-4 py-12">
-    <h1 className="py-4 font-semibold text-3xl">{children}</h1>
+    <h1 className="py-4 text-3xl font-semibold">{children}</h1>
     {/* <h2>{DateTime.now().minus({ week: 1 }).toRelative()}</h2> */}
   </div>
 )
 
 type Props = InferGetServerSidePropsType<typeof getServerSideProps>
 const CreateExerciseLogPage: NextPage<Props> = ({ exercise }: Props) => {
+  const { handleSubmit } = useForm<FormData>({
+    defaultValues: {
+      eventDate: new Date(),
+    },
+  })
+
   const [sets, setSets] = useState<ExerciseLogSet[]>([
     {
       id: uuid(),
@@ -226,6 +248,37 @@ const CreateExerciseLogPage: NextPage<Props> = ({ exercise }: Props) => {
     })
   }
 
+  const [createExerciseLog] = useMutation<
+    CreateExerciseLogMutation,
+    CreateExerciseLogMutationVariables
+  >(createExerciseLogMutation)
+
+  const onSubmit = async (form: FormData) => {
+    try {
+      const { data } = await createExerciseLog({
+        variables: {
+          exerciseLog: {
+            exercise: exercise.id,
+            eventDate: form.eventDate,
+            sets: sets.map((set) => ({
+              reps: parseInt(set.reps),
+              weight: parseFloat(set.weight),
+              unit: Unit.Pound,
+            })),
+          },
+        },
+      })
+      router.push({
+        pathname: Route.ExerciseLog,
+        query: {
+          exerciseLogId: data?.createExerciseLog.id,
+        },
+      })
+    } catch {
+      alert('Failed to create log!')
+    }
+  }
+
   return (
     <div className="bg-neutral-900">
       <Head>
@@ -238,24 +291,29 @@ const CreateExerciseLogPage: NextPage<Props> = ({ exercise }: Props) => {
           content="width=device-width, initial-scale=1.0, viewport-fit=cover"
         />
       </Head>
-      <main className="pb-safe pt-8">
-        <Name>{exercise.name}</Name>
-        <Sets
-          previousLogStats={{
-            eventDate: exercise.logs[0]?.eventDate,
-            ...exercise.logs[0]?.stats,
-          }}
-          sets={sets}
-          onRemove={removeSet}
-          onAdd={addSet}
-          onChange={onChange}
-        />
-        <div className="px-4">
-          <button className="border w-full py-4 border-neutral-300">
-            Next
-          </button>
-        </div>
-      </main>
+      <Main className="pb-safe pt-8">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Name>{exercise.name}</Name>
+          <Sets
+            previousLogStats={{
+              eventDate: exercise.logs[0]?.eventDate,
+              ...exercise.logs[0]?.stats,
+            }}
+            sets={sets}
+            onRemove={removeSet}
+            onAdd={addSet}
+            onChange={onChange}
+          />
+          <div className="px-4">
+            <button
+              className="w-full border border-neutral-300 py-4"
+              type="submit"
+            >
+              Save
+            </button>
+          </div>
+        </form>
+      </Main>
     </div>
   )
 }
