@@ -78,7 +78,7 @@ const ExerciseLogPage: NextPage<Props> = ({ exerciseLog }: Props) => {
       <Header left={<Back href={Route.ExerciseLogs} />} right={<Menu />}>
         <PageTitle>{exerciseLog.exercise.name}</PageTitle>
       </Header>
-      <div className="flex py-8 justify-end">
+      <div className="flex justify-end py-8">
         <div className="flex flex-col items-end">
           <div className="text-2xl">
             {new Date(exerciseLog.eventDate).toLocaleDateString()}
@@ -91,7 +91,7 @@ const ExerciseLogPage: NextPage<Props> = ({ exerciseLog }: Props) => {
           <ExerciseLogSetItem key={s.setNumber} {...s} />
         ))}
       </ul>
-      <button className="border w-full border-neutral-300">
+      <button className="w-full border border-neutral-300">
         <Link
           href={{
             pathname: Route.ExerciseLogNew,
