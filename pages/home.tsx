@@ -22,6 +22,16 @@ const Home: NextPage = () => {
       <div className="bg-neutral-900">
         <Link
           href={{
+            pathname: Route.ExerciseLogs,
+          }}
+          className="block py-8"
+        >
+          Exercise Logs
+        </Link>
+      </div>
+      <div className="bg-neutral-900">
+        <Link
+          href={{
             pathname: Route.Routines,
           }}
           className="block py-8"
