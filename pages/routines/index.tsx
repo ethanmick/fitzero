@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 import { MenuAlt3Icon } from '@heroicons/react/outline'
-import { Header, PageTitle } from 'components'
+import { Back, Header, PageTitle } from 'components'
 import { Main } from 'components/layout'
 import { Menu } from 'components/menu'
 import { Route } from 'lib'
@@ -48,7 +48,7 @@ type Props = InferGetServerSidePropsType<typeof getServerSideProps>
 const RoutinesPage: NextPage<Props> = ({ routines }: Props) => {
   return (
     <Main>
-      <Header right={<Menu />}>
+      <Header left={<Back href={Route.Home} />} right={<Menu />}>
         <PageTitle>Routines</PageTitle>
       </Header>
       <ul className="divide-y">

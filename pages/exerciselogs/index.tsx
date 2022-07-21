@@ -1,4 +1,4 @@
-import { PageTitle } from 'components'
+import { Back, PageTitle } from 'components'
 import { Main } from 'components/layout'
 import {
   GetServerSidePropsContext,
@@ -94,7 +94,7 @@ type Props = InferGetServerSidePropsType<typeof getServerSideProps>
 const ExerciseLogsPage: NextPage<Props> = ({ exerciseLogs }: Props) => {
   return (
     <Main>
-      <Header right={<Menu />}>
+      <Header left={<Back href={Route.Home} />} right={<Menu />}>
         <PageTitle>Exercise Logs</PageTitle>
       </Header>
       <ul className="divide-y">

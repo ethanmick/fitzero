@@ -1,4 +1,4 @@
-import { PageTitle } from 'components'
+import { Back, PageTitle } from 'components'
 import { Main } from 'components/layout'
 import {
   GetServerSidePropsContext,
@@ -59,7 +59,7 @@ const ExercisesPage: NextPage<Props> = ({ exercises }: Props) => {
 
   return (
     <Main>
-      <Header right={<Menu />}>
+      <Header left={<Back href={Route.Home} />} right={<Menu />}>
         <PageTitle>Exercises</PageTitle>
       </Header>
       <input
