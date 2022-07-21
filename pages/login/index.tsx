@@ -29,7 +29,7 @@ const AwaitConfirmation = ({ email, token, onUndo }: AwaitProps) => {
     if (!data) {
       return
     }
-    router.push(Route.Workouts)
+    router.push(Route.Home)
   }, [router, data])
 
   return (
