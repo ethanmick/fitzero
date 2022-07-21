@@ -9,15 +9,29 @@ import Link from 'next/link'
 import { query, Route } from 'lib'
 import { Header } from 'components/header'
 import { Menu } from 'components/menu'
-import { ExercisesQuery } from 'lib/generated'
-import { gql } from '@apollo/client'
+import {
+  CreateExerciseMutation,
+  CreateExerciseMutationVariables,
+  ExercisesQuery,
+  ExerciseType,
+} from 'lib/generated'
+import { gql, useMutation } from '@apollo/client'
 import { useState } from 'react'
+import router from 'next/router'
 
 const exercisesPageQueryDocument = gql`
   query Exercises {
     exercises {
       id
       name
+    }
+  }
+`
+
+const createExerciseMutation = gql`
+  mutation CreateExercise($exercise: CreateExerciseInput!) {
+    createExercise(exercise: $exercise) {
+      id
     }
   }
 `
@@ -53,8 +67,33 @@ const ExercisesPage: NextPage<Props> = ({ exercises }: Props) => {
     const filtered = exercises.filter((item) => {
       return item.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
     })
-
     setFilteredExercises(filtered)
+  }
+
+  const [createExercise] = useMutation<
+    CreateExerciseMutation,
+    CreateExerciseMutationVariables
+  >(createExerciseMutation)
+
+  const onCreateExercise = async (exerciseName: string) => {
+    try {
+      const { data } = await createExercise({
+        variables: {
+          exercise: {
+            name: exerciseName.trim(),
+            type: ExerciseType.Strength,
+          },
+        },
+      })
+      router.push({
+        pathname: Route.Exercise,
+        query: {
+          exerciseId: data?.createExercise.id,
+        },
+      })
+    } catch {
+      alert('Failed to create exercise!')
+    }
   }
 
   return (
@@ -70,6 +109,14 @@ const ExercisesPage: NextPage<Props> = ({ exercises }: Props) => {
         value={searchQuery}
         onChange={(e) => handleSearch(e.target.value)}
       />
+      {filteredExercises.length == 0 && (
+        <button
+          className="w-full border border-neutral-300 py-8"
+          onClick={() => onCreateExercise(searchQuery)}
+        >
+          Create &quot;{searchQuery.trim()}&quot;
+        </button>
+      )}
       <ul className="divide-y">
         {filteredExercises.map((exercise) => (
           <ExerciseItem key={exercise.id} {...exercise} />
