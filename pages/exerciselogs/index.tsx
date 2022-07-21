@@ -60,9 +60,7 @@ const ExerciseLogItem = ({
         }}
         className="block py-8"
       >
-        <div className="flex justify-around py-8">
-          {exerciseName}
-        </div>
+        <div className="flex justify-around py-8">{exerciseName}</div>
         <div className="flex justify-around py-8">
           <div className="flex flex-col items-start">
             <div className="text-2xl">
