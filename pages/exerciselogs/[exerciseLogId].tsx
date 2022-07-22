@@ -11,7 +11,7 @@ import { Menu } from 'components/menu'
 import { DeleteExerciseLogMutation, DeleteExerciseLogMutationVariables, ExerciseLogQuery } from 'lib/generated'
 import { gql, useMutation } from '@apollo/client'
 import Link from 'next/link'
-import { MinusIcon } from '@heroicons/react/outline'
+import { TrashIcon } from '@heroicons/react/outline'
 import router from 'next/router'
 
 const exerciseLogPageQueryDocument = gql`
@@ -115,7 +115,7 @@ const ExerciseLogPage: NextPage<Props> = ({ exerciseLog }: Props) => {
         </div>
           <div>
             <button onClick={() => onRemove(exerciseLog.id)}>
-              <MinusIcon className="h-5 w-5" />
+              <TrashIcon className="h-5 w-5" />
             </button>
           </div>
       </div>

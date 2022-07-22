@@ -13,8 +13,8 @@ import {
   Unit,
 } from 'lib/generated'
 import { gql, useMutation } from '@apollo/client'
-import { MinusIcon } from '@heroicons/react/outline'
-import { useEffect, useRef, useState } from 'react'
+import { TrashIcon } from '@heroicons/react/outline'
+import { useState } from 'react'
 import { v4 as uuid } from 'uuid'
 import router from 'next/router'
 import { useForm } from 'react-hook-form'
@@ -177,7 +177,7 @@ const Sets = ({
             </div>
             <div>
               <button onClick={() => onRemove(s)}>
-                <MinusIcon className="h-5 w-5" />
+                <TrashIcon className="h-5 w-5" />
               </button>
             </div>
           </li>

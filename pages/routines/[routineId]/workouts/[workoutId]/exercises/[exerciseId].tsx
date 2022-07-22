@@ -1,4 +1,4 @@
-import { ArrowLeftIcon, MinusIcon } from '@heroicons/react/outline'
+import { TrashIcon } from '@heroicons/react/outline'
 import { Back } from 'components'
 import { Route } from 'lib'
 // import { DateTime } from 'luxon'
@@ -8,7 +8,6 @@ import type {
   NextPage,
 } from 'next'
 import Head from 'next/head'
-import Link from 'next/link'
 import { useState } from 'react'
 import { v4 as uuid } from 'uuid'
 
@@ -106,7 +105,7 @@ const Sets = ({ sets, onRemove, onAdd, onChange }: SetsProps) => {
             </div>
             <div>
               <button onClick={() => onRemove(s)}>
-                <MinusIcon className="w-5 h-5" />
+                <TrashIcon className="w-5 h-5" />
               </button>
             </div>
           </li>

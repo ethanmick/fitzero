@@ -15,7 +15,7 @@ import {
   ExerciseLogsQuery,
 } from 'lib/generated'
 import { gql, useMutation } from '@apollo/client'
-import { MinusIcon } from '@heroicons/react/outline'
+import { TrashIcon } from '@heroicons/react/outline'
 import router from 'next/router'
 
 const exerciseLogsPageQueryDocument = gql`
@@ -95,7 +95,7 @@ const ExerciseLogItem = ({ exerciseLog, onRemove }: ExerciseLogItemProps) => {
           </div>
           <div>
             <button onClick={() => onRemove(exerciseLog.id)}>
-              <MinusIcon className="h-5 w-5" />
+              <TrashIcon className="h-5 w-5" />
             </button>
           </div>
         </div>
