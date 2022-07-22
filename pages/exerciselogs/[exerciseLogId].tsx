@@ -8,9 +8,11 @@ import {
 import { query, Route } from 'lib'
 import { Header } from 'components/header'
 import { Menu } from 'components/menu'
-import { ExerciseLogQuery, ExerciseQuery } from 'lib/generated'
-import { gql } from '@apollo/client'
+import { DeleteExerciseLogMutation, DeleteExerciseLogMutationVariables, ExerciseLogQuery } from 'lib/generated'
+import { gql, useMutation } from '@apollo/client'
 import Link from 'next/link'
+import { MinusIcon } from '@heroicons/react/outline'
+import router from 'next/router'
 
 const exerciseLogPageQueryDocument = gql`
   query ExerciseLog($exerciseLogId: ID!) {
@@ -27,6 +29,12 @@ const exerciseLogPageQueryDocument = gql`
         weight
       }
     }
+  }
+`
+
+const exerciseLogPageDeleteMutation = gql`
+  mutation DeleteExerciseLog($id: ID!) {
+    deleteExerciseLog(id: $id)
   }
 `
 
@@ -73,18 +81,43 @@ const ExerciseLogSetItem = ({ setNumber, reps, weight }: ExerciseLogSet) => {
 
 type Props = InferGetServerSidePropsType<typeof getServerSideProps>
 const ExerciseLogPage: NextPage<Props> = ({ exerciseLog }: Props) => {
+  const [deleteExerciseLog] = useMutation<
+    DeleteExerciseLogMutation,
+    DeleteExerciseLogMutationVariables
+  >(exerciseLogPageDeleteMutation)
+
+  const onRemove = async (id: string) => {
+    try {
+      const { data } = await deleteExerciseLog({
+        variables: {
+          id,
+        },
+      })
+      router.push({
+        pathname: Route.ExerciseLogs,
+      })
+    } catch {
+      alert('Failed to delete log!')
+    }
+  }
+
   return (
     <Main>
       <Header left={<Back href={Route.ExerciseLogs} />} right={<Menu />}>
         <PageTitle>{exerciseLog.exercise.name}</PageTitle>
       </Header>
-      <div className="flex justify-end py-8">
-        <div className="flex flex-col items-end">
+      <div className="flex justify-between py-8">
+        <div className="flex flex-col items-start">
           <div className="text-2xl">
             {new Date(exerciseLog.eventDate).toLocaleDateString()}
           </div>
           <div className="text-sm font-light uppercase">DATE</div>
         </div>
+          <div>
+            <button onClick={() => onRemove(exerciseLog.id)}>
+              <MinusIcon className="h-5 w-5" />
+            </button>
+          </div>
       </div>
       <ul className="divide-y">
         {exerciseLog.sets.map((s) => (

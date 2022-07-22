@@ -9,8 +9,14 @@ import Link from 'next/link'
 import { query, Route } from 'lib'
 import { Header } from 'components/header'
 import { Menu } from 'components/menu'
-import { ExerciseLogsQuery, ExercisesQuery } from 'lib/generated'
-import { gql } from '@apollo/client'
+import {
+  DeleteExerciseLogMutation,
+  DeleteExerciseLogMutationVariables,
+  ExerciseLogsQuery,
+} from 'lib/generated'
+import { gql, useMutation } from '@apollo/client'
+import { MinusIcon } from '@heroicons/react/outline'
+import router from 'next/router'
 
 const exerciseLogsPageQueryDocument = gql`
   query ExerciseLogs {
@@ -30,6 +36,12 @@ const exerciseLogsPageQueryDocument = gql`
   }
 `
 
+const exerciseLogsPageDeleteMutation = gql`
+  mutation DeleteExerciseLog($id: ID!) {
+    deleteExerciseLog(id: $id)
+  }
+`
+
 type ExerciseLog = {
   id: string
   exerciseName: string
@@ -40,47 +52,51 @@ type ExerciseLog = {
   avgWeight: number
 }
 
-const ExerciseLogItem = ({
-  id,
-  exerciseName,
-  eventDate,
-  totalSets,
-  minReps,
-  maxReps,
-  avgWeight,
-}: ExerciseLog) => {
+type ExerciseLogItemProps = {
+  exerciseLog: ExerciseLog
+  onRemove: (id: string) => void
+}
+
+const ExerciseLogItem = ({ exerciseLog, onRemove }: ExerciseLogItemProps) => {
   return (
     <li>
       <Link
         href={{
           pathname: Route.ExerciseLog,
           query: {
-            exerciseLogId: id,
+            exerciseLogId: exerciseLog.id,
           },
         }}
         className="block py-8"
       >
-        <div className="flex justify-around py-8">{exerciseName}</div>
+        <div className="flex justify-around py-8">
+          {exerciseLog.exerciseName}
+        </div>
         <div className="flex justify-around py-8">
           <div className="flex flex-col items-start">
             <div className="text-2xl">
-              {new Date(eventDate).toLocaleDateString()}
+              {new Date(exerciseLog.eventDate).toLocaleDateString()}
             </div>
             <div className="text-sm font-light uppercase">DATE</div>
           </div>
           <div className="flex flex-col items-start">
-            <div className="text-2xl">{totalSets}</div>
+            <div className="text-2xl">{exerciseLog.totalSets}</div>
             <div className="text-sm font-light uppercase">SETS</div>
           </div>
           <div className="flex flex-col items-start">
             <div className="text-2xl">
-              {minReps}-{maxReps}
+              {exerciseLog.minReps}-{exerciseLog.maxReps}
             </div>
             <div className="text-sm font-light uppercase">REPS</div>
           </div>
           <div className="flex flex-col items-start">
-            <div className="text-2xl">{Math.floor(avgWeight)}</div>
+            <div className="text-2xl">{Math.floor(exerciseLog.avgWeight)}</div>
             <div className="text-sm font-light uppercase">LBS</div>
+          </div>
+          <div>
+            <button onClick={() => onRemove(exerciseLog.id)}>
+              <MinusIcon className="h-5 w-5" />
+            </button>
           </div>
         </div>
       </Link>
@@ -90,6 +106,26 @@ const ExerciseLogItem = ({
 
 type Props = InferGetServerSidePropsType<typeof getServerSideProps>
 const ExerciseLogsPage: NextPage<Props> = ({ exerciseLogs }: Props) => {
+  const [deleteExerciseLog] = useMutation<
+    DeleteExerciseLogMutation,
+    DeleteExerciseLogMutationVariables
+  >(exerciseLogsPageDeleteMutation)
+
+  const onRemove = async (id: string) => {
+    try {
+      const { data } = await deleteExerciseLog({
+        variables: {
+          id,
+        },
+      })
+      router.push({
+        pathname: Route.ExerciseLogs,
+      })
+    } catch {
+      alert('Failed to delete log!')
+    }
+  }
+
   return (
     <Main>
       <Header left={<Back href={Route.Home} />} right={<Menu />}>
@@ -98,11 +134,14 @@ const ExerciseLogsPage: NextPage<Props> = ({ exerciseLogs }: Props) => {
       <ul className="divide-y">
         {exerciseLogs.map((el) => (
           <ExerciseLogItem
-            id={el.id}
             key={el.id}
-            eventDate={el.eventDate}
-            exerciseName={el.exercise.name}
-            {...el.stats}
+            exerciseLog={{
+              id: el.id,
+              eventDate: el.eventDate,
+              exerciseName: el.exercise.name,
+              ...el.stats,
+            }}
+            onRemove={onRemove}
           />
         ))}
       </ul>
