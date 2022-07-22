@@ -296,7 +296,7 @@ const CreateExerciseLogPage: NextPage<Props> = ({ exercise }: Props) => {
         />
       </Head>
       <Main className="pb-safe pt-8">
-        <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
           <Name>{exercise.name}</Name>
           <Sets
             previousLogStats={{

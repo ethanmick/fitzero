@@ -8,15 +8,17 @@ import {
 import { query, Route } from 'lib'
 import { Header } from 'components/header'
 import { Menu } from 'components/menu'
-import { ExerciseQuery } from 'lib/generated'
+import { ExercisePageQuery, ExerciseQuery } from 'lib/generated'
 import { gql } from '@apollo/client'
 import Link from 'next/link'
+import { PencilIcon } from '@heroicons/react/outline'
 
 const exercisePageQueryDocument = gql`
-  query Exercise($exerciseId: ID!) {
+  query ExercisePage($exerciseId: ID!) {
     exercise(id: $exerciseId) {
       id
       name
+      canEdit
       logs {
         id
         eventDate
@@ -91,9 +93,28 @@ const ExercisePage: NextPage<Props> = ({ exercise }: Props) => {
   return (
     <Main>
       <Header left={<Back href={Route.Exercises} />} right={<Menu />}>
-        <PageTitle>{exercise.name}</PageTitle>
+        <PageTitle>
+          <div className="flex space-x-4">
+            <div>{exercise.name}</div>
+            {exercise.canEdit && (
+              <div>
+                <Link
+                  href={{
+                    pathname: Route.ExerciseEdit,
+                    query: {
+                      exerciseId: exercise.id,
+                    },
+                  }}
+                  className="block py-2"
+                >
+                  <PencilIcon className="h-5 w-5" />
+                </Link>
+              </div>
+            )}
+          </div>
+        </PageTitle>
       </Header>
-      <button className="border w-full border-neutral-300">
+      <button className="w-full border border-neutral-300">
         <Link
           href={{
             pathname: Route.ExerciseLogNew,
@@ -124,7 +145,7 @@ export default ExercisePage
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const { exerciseId } = ctx.params as any
-  const { data } = await query<ExerciseQuery>(ctx, exercisePageQueryDocument, {
+  const { data } = await query<ExercisePageQuery>(ctx, exercisePageQueryDocument, {
     exerciseId,
   })
   return {
