@@ -99,8 +99,7 @@ const Sets = ({
 }: SetsProps) => {
   return (
     <div className="bg-neutral-900 px-4 shadow">
-      <h2 className="py-8 text-2xl">Sets</h2>
-      <h3>Previous</h3>
+      <h2 className="text-2xl">Previous</h2>
       <div className="flex justify-around py-8">
         <div className="flex flex-col items-start">
           <div className="text-2xl">
@@ -111,20 +110,26 @@ const Sets = ({
           <div className="text-sm font-light uppercase">Date</div>
         </div>
         <div className="flex flex-col items-start">
-          <div className="text-2xl">{previousLogStats?.totalSets || "N/A"}</div>
+          <div className="text-2xl">{previousLogStats?.totalSets || 'N/A'}</div>
           <div className="text-sm font-light uppercase">Sets</div>
         </div>
         <div className="flex flex-col items-start">
           <div className="text-2xl">
-            {previousLogStats?.minReps ? repsText(previousLogStats?.minReps, previousLogStats?.maxReps) : "N/A"}
+            {previousLogStats?.minReps
+              ? repsText(previousLogStats?.minReps, previousLogStats?.maxReps)
+              : 'N/A'}
           </div>
           <div className="text-sm font-light uppercase">Reps</div>
         </div>
         <div className="flex flex-col items-start">
-          <div className="text-2xl">{previousLogStats?.avgWeight}</div>
-          <div className="text-sm font-light uppercase">lbs</div>
+          <div className="text-2xl">
+            {Math.floor(previousLogStats?.avgWeight)}
+          </div>
+          <div className="text-sm font-light uppercase">lbs (avg)</div>
         </div>
       </div>
+      <hr className="py-2" />
+      <h2 className="py-8 text-2xl">Sets</h2>
       <ul>
         <li className="grid grid-cols-10 gap-8">
           <div>Set</div>
