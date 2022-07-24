@@ -104,17 +104,19 @@ const Sets = ({
       <div className="flex justify-around py-8">
         <div className="flex flex-col items-start">
           <div className="text-2xl">
-            {new Date(previousLogStats?.eventDate).toLocaleDateString()}
+            {previousLogStats?.eventDate
+              ? new Date(previousLogStats?.eventDate).toLocaleDateString()
+              : 'N/A'}
           </div>
           <div className="text-sm font-light uppercase">Date</div>
         </div>
         <div className="flex flex-col items-start">
-          <div className="text-2xl">{previousLogStats?.totalSets}</div>
+          <div className="text-2xl">{previousLogStats?.totalSets || "N/A"}</div>
           <div className="text-sm font-light uppercase">Sets</div>
         </div>
         <div className="flex flex-col items-start">
           <div className="text-2xl">
-            {repsText(previousLogStats?.minReps, previousLogStats?.maxReps)}
+            {previousLogStats?.minReps ? repsText(previousLogStats?.minReps, previousLogStats?.maxReps) : "N/A"}
           </div>
           <div className="text-sm font-light uppercase">Reps</div>
         </div>
@@ -296,7 +298,7 @@ const CreateExerciseLogPage: NextPage<Props> = ({ exercise }: Props) => {
         />
       </Head>
       <Main className="pb-safe pt-8">
-      <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <Name>{exercise.name}</Name>
           <Sets
             previousLogStats={{
