@@ -106,6 +106,19 @@ const ExerciseLogPage: NextPage<Props> = ({ exerciseLog }: Props) => {
       <Header left={<Back href={Route.ExerciseLogs} />} right={<Menu />}>
         <PageTitle>{exerciseLog.exercise.name}</PageTitle>
       </Header>
+      <button className="w-full border border-neutral-300">
+        <Link
+          href={{
+            pathname: Route.ExerciseLogNew,
+            query: {
+              exerciseId: exerciseLog.exercise.id,
+            },
+          }}
+          className="block py-8"
+        >
+          New {exerciseLog.exercise.name} Log
+        </Link>
+      </button>
       <div className="flex justify-between py-8">
         <div className="flex flex-col items-start">
           <div className="text-2xl">
@@ -124,19 +137,6 @@ const ExerciseLogPage: NextPage<Props> = ({ exerciseLog }: Props) => {
           <ExerciseLogSetItem key={s.setNumber} {...s} />
         ))}
       </ul>
-      <button className="w-full border border-neutral-300">
-        <Link
-          href={{
-            pathname: Route.ExerciseLogNew,
-            query: {
-              exerciseId: exerciseLog.exercise.id,
-            },
-          }}
-          className="block py-8"
-        >
-          New {exerciseLog.exercise.name} Log
-        </Link>
-      </button>
     </Main>
   )
 }
