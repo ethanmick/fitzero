@@ -131,6 +131,19 @@ const ExerciseLogsPage: NextPage<Props> = ({ exerciseLogs }: Props) => {
       <Header left={<Back href={Route.Home} />} right={<Menu />}>
         <PageTitle>Exercise Logs</PageTitle>
       </Header>
+      <button className="w-full border border-neutral-300">
+        <Link
+          href={{
+            pathname: Route.Exercises,
+            query: {
+              logMode: true,
+            },
+          }}
+          className="block py-8"
+        >
+          New Log
+        </Link>
+      </button>
       <ul className="divide-y">
         {exerciseLogs.map((el) => (
           <ExerciseLogItem

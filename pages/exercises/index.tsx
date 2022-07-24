@@ -18,6 +18,7 @@ import {
 import { gql, useMutation } from '@apollo/client'
 import { useState } from 'react'
 import router from 'next/router'
+import { UrlObject } from 'url'
 
 const exercisesPageQueryDocument = gql`
   query Exercises {
@@ -39,26 +40,22 @@ const createExerciseMutation = gql`
 type Exercise = {
   id: string
   name: string
+  href: string | UrlObject
 }
 
-const ExerciseItem = ({ id, name }: Exercise) => (
+const ExerciseItem = ({ id, name, href }: Exercise) => (
   <li>
-    <Link
-      href={{
-        pathname: Route.Exercise,
-        query: {
-          exerciseId: id,
-        },
-      }}
-      className="block py-8"
-    >
+    <Link href={href} className="block py-8">
       {name}
     </Link>
   </li>
 )
 
 type Props = InferGetServerSidePropsType<typeof getServerSideProps>
-const ExercisesPage: NextPage<Props> = ({ exercises }: Props) => {
+const ExercisesPage: NextPage<Props> = (
+  { exercises }: Props,
+  logMode: boolean
+) => {
   const [filteredExercises, setFilteredExercises] = useState(exercises)
   const [searchQuery, setSearchQuery] = useState('')
 
@@ -75,7 +72,7 @@ const ExercisesPage: NextPage<Props> = ({ exercises }: Props) => {
     CreateExerciseMutationVariables
   >(createExerciseMutation)
 
-  const onCreateExercise = async (exerciseName: string) => {
+  const onCreateExercise = async (exerciseName: string, logMode: boolean) => {
     try {
       const { data } = await createExercise({
         variables: {
@@ -86,7 +83,7 @@ const ExercisesPage: NextPage<Props> = ({ exercises }: Props) => {
         },
       })
       router.push({
-        pathname: Route.Exercise,
+        pathname: logMode ? Route.ExerciseLogNew : Route.Exercise,
         query: {
           exerciseId: data?.createExercise.id,
         },
@@ -112,14 +109,23 @@ const ExercisesPage: NextPage<Props> = ({ exercises }: Props) => {
       {filteredExercises.length == 0 && (
         <button
           className="w-full border border-neutral-300 py-8"
-          onClick={() => onCreateExercise(searchQuery)}
+          onClick={() => onCreateExercise(searchQuery, logMode)}
         >
           Create &quot;{searchQuery.trim()}&quot;
         </button>
       )}
       <ul className="divide-y">
         {filteredExercises.map((exercise) => (
-          <ExerciseItem key={exercise.id} {...exercise} />
+          <ExerciseItem
+            key={exercise.id}
+            href={{
+              pathname: logMode ? Route.ExerciseLogNew : Route.Exercise,
+              query: {
+                exerciseId: exercise.id,
+              },
+            }}
+            {...exercise}
+          />
         ))}
       </ul>
     </Main>
@@ -129,10 +135,12 @@ const ExercisesPage: NextPage<Props> = ({ exercises }: Props) => {
 export default ExercisesPage
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+  const logMode = ctx.query.logMode || false
   const { data } = await query<ExercisesQuery>(ctx, exercisesPageQueryDocument)
   return {
     props: {
       exercises: data.exercises,
+      logMode,
     },
   }
 }
